@@ -6,3 +6,7 @@ class AvaliadorSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Avaliador
 		fields = ['id', 'nome', 'especialidade']
+
+class AvaliacaoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Avaliacao
