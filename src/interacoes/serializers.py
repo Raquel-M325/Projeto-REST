@@ -8,5 +8,9 @@ class AvaliadorSerializer(serializers.ModelSerializer):
 		fields = ['id', 'nome', 'especialidade']
 
 class AvaliacaoSerializer(serializers.ModelSerializer):
+	avaliador = serializers.PrimaryKeyRelatedField(
+        	queryset=Avaliador.objects.all()
+    	)
 	class Meta:
 		model = Avaliacao
+		fields = ['id', 'comentario', 'nota', 'avaliador']

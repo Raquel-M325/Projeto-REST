@@ -1,15 +1,18 @@
 from django.shortcuts import render
-from models import Avaliacao, Avaliador
+from .models import Avaliacao, Avaliador
+from .serializers import AvaliadorSerializer, AvaliacaoSerializer
 
 from rest_framework import viewsets, permissions
 # Create your views here.
 
-class Teste(viewsets.ModelsViewSet):
-    def get(self, request):  # metodo get pq o django negou o acesso da aplicação
-        avaliacoes = ListarProjetosMaisAvaliadosService.executar(3)  # top 3 projetos mais avaliados
+class AvaliadorViewSet(viewsets.ModelViewSet):
+	queryset = Avaliador.objects.all()
 
-        return render(request, "templates/index.html")
-    # queryset = Autor.objects.all()
+	serializer_class = AvaliadorSerializer
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-	# serializer_class = AutorSerializer
-	# permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+class AvaliacaoViewSet(viewsets.ModelViewSet):
+	queryset = Avaliacao.objects.all()
+
+	serializer_class = AvaliacaoSerializer
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
