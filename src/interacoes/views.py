@@ -1,7 +1,7 @@
-#from django.shortcuts import render
-#from rest_framework.views import APIView
-#from rest_framework.response import Response
-#from rest_framework import status
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from .models import Avaliacao, Avaliador
 from .serializers import AvaliadorSerializer, AvaliacaoSerializer
 
@@ -35,3 +35,21 @@ class AvaliacaoViewSet(viewsets.ModelViewSet):
 	def create(self, request, *args, **kwargs):
 		print(request.data)
 		return super().create(request, *args, **kwargs)
+
+class AvaliacaoListView(APIView):
+	def get(self, request):
+		avaliador_id = request.query_params.get('avaliador')
+		avaliacoes = Avaliacao.objects.all()
+		
+		if avaliador_id:
+			try:
+				avaliacoes = avaliacoes.filter(avaliador_id=int(avaliador_id))
+			except ValueError:
+			
+				return Response(
+					{"erro": "ID do avaliador deve ser um número válido"},
+					status=status.HTTP_400_BAD_REQUEST
+				)
+		
+		serializer = AvaliacaoSerializer(avaliacoes, many=True)
+		return Response(serializer.data)
