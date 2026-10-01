@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Avaliacao, Avaliador
-from rest_framework.reverse import reverse
+#from rest_framework.reverse import reverse
 
 class AvaliadorSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -13,4 +13,4 @@ class AvaliacaoSerializer(serializers.ModelSerializer):
     	)
 	class Meta:
 		model = Avaliacao
-		fields = ['id', 'comentario', 'nota', 'avaliador']
+		fields = ['id', 'nota', 'comentario', 'avaliador']
