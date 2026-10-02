@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'interacoes',
     'rest_framework_simplejwt',
     'drf_yasg',
+    'gerencia',
 ]
 
 SWAGGER_SETTINGS = {
