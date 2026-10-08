@@ -43,6 +43,7 @@ permission_classes=(permissions.AllowAny,),
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include("app.urls")),
     #path('api/', include('cliente.urls')),
     #path('api/', include('interacoes.urls')),
     #path('api/', include('gerencia.urls')),
