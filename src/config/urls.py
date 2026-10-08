@@ -26,8 +26,8 @@ from rest_framework import permissions
 router = routers.DefaultRouter()
 router.register(r'avaliador', AvaliadorViewSet)
 router.register(r'avaliacao', AvaliacaoViewSet)
-router.register(r'publicador', PublicadorViewSet)
-router.register(r'publicacao', PublicacaoViewSet)
+router.register(r'publicador', PublicadorViewSet, basename='publicador')
+router.register(r'publicacao', PublicacaoViewSet, basename='publicacao')
 schema_view = get_schema_view(
 openapi.Info(
 title="API Sistema de Criticas de Jogos",
