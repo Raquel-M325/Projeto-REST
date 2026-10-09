@@ -1,4 +1,7 @@
-from django.urls import path
-from rest_framework.routers import DefaultRouter
 
-urlpatterns = []
+from django.urls import path
+from django.shortcuts import render
+
+urlpatterns = [
+    path('', lambda request: render(request, 'app/index.html'), name='pagina_inicial'),
+]

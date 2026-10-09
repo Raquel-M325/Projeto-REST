@@ -57,7 +57,6 @@ class ClienteViewSet(viewsets.ViewSet):
             request, "DELETE", f"/api/publicador/{pk}/"
         )
 
-
     # PUBLICAÇÕES
 
     def listar_publicacoes(self, request):

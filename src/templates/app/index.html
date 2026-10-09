@@ -70,7 +70,7 @@
         <div class="flex items-center gap-2"><button class="border-2 border-ink bg-ink px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-paper">Mais recentes</button><button class="border-2 border-ink px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] hover:bg-signal">Mais lidas</button></div>
     </div>
     <div class="grid gap-6 lg:grid-cols-[1fr_310px]">
-        <div class="space-y-5">
+        <div id="feed-publicacoes" class="space-y-5">
             <article class="border-2 border-ink bg-white p-5 shadow-[4px_4px_0_#d9d9d4] sm:p-7">
                 <div class="mb-5 flex items-start justify-between gap-4"><div class="flex items-center gap-3"><div class="grid h-11 w-11 place-items-center bg-coral font-display text-lg">MS</div><div><h3 class="text-sm font-black uppercase">Marina S.</h3><p class="text-xs text-ink/50">Avaliadora · há 12 min</p></div></div><span class="border-2 border-ink bg-signal px-2 py-1 text-[10px] font-black uppercase tracking-[0.1em]">Positivo</span></div>
                 <div class="mb-4 flex items-center justify-between gap-3"><h2 class="font-display text-2xl uppercase tracking-[-0.04em]">Neon Revenant</h2><span class="font-display text-3xl text-coral">9.5</span></div>
@@ -132,7 +132,300 @@
             </form>
         </div>
     </div>
+
+
     <script>
+    const API = ""; // Mesmo servidor Django
+    let token = localStorage.getItem("access");
+
+    // LOGIN
+    const authForm = document.querySelector("#auth-form");
+
+    if (authForm) {
+    authForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const username = document.querySelector("#auth-email").value;
+        const password = document.querySelector("#auth-password").value;
+
+        try {
+        const resposta = await fetch(`${API}/api/token/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(JSON.stringify(dados));
+        }
+
+        token = dados.access;
+        localStorage.setItem("access", token);
+        alert("Login realizado com sucesso!");
+        } catch (erro) {
+        alert("Não foi possível entrar: " + erro.message);
+        }
+    });
+    }
+
+    // FUNÇÃO PARA ENVIAR DADOS AO DJANGO
+    async function enviarParaAPI(endpoint, dados) {
+    const headers = {
+        "Content-Type": "application/json"
+    };
+
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const resposta = await fetch(`${API}${endpoint}`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(dados)
+    });
+
+    const resultado = await resposta.json().catch(() => ({}));
+
+    if (!resposta.ok) {
+        throw new Error(JSON.stringify(resultado));
+    }
+
+    return resultado;
+    }
+
+    // PUBLICAR JOGO
+    const publisherForm = document.querySelector("#publisher-form");
+
+    if (publisherForm) {
+    publisherForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const titulo = publisherForm.querySelector(
+        'input[name="titulo"]'
+        ).value;
+
+        const dataPublicacao = publisherForm.querySelector(
+        'input[name="data_publicacao"]'
+        ).value;
+
+        const publicador = publisherForm.querySelector(
+        'input[name="publicador"]'
+        ).value;
+
+        try {
+        const resultado = await enviarParaAPI(
+            "/cliente/publicacoes/",
+            {
+            titulo: titulo,
+            data_publicacao: dataPublicacao,
+            publicador: Number(publicador)
+            }
+        );
+
+        alert("Publicação salva com sucesso!");
+        console.log("Publicação criada:", resultado);
+        publisherForm.reset();
+        } catch (erro) {
+        alert("Erro ao publicar: " + erro.message);
+        }
+    });
+    }
+
+    // PUBLICAR AVALIAÇÃO
+    const reviewerForm = document.querySelector("#reviewer-form");
+
+    if (reviewerForm) {
+    reviewerForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const publicacao = reviewerForm.querySelector(
+        'select[name="publicacao"]'
+        ).value;
+
+        const nota = reviewerForm.querySelector(
+        'input[name="nota"]'
+        ).value;
+
+        const comentario = reviewerForm.querySelector(
+        'textarea[name="comentario"]'
+        ).value;
+
+        try {
+        const resultado = await enviarParaAPI(
+            "/cliente/avaliacoes/",
+            {
+            publicacao: Number(publicacao),
+            nota: Number(nota),
+            comentario: comentario
+            }
+        );
+
+        alert("Avaliação enviada com sucesso!");
+        console.log("Avaliação criada:", resultado);
+        reviewerForm.reset();
+        } catch (erro) {
+        alert("Erro ao avaliar: " + erro.message);
+        }
+    });
+    }
+    </script>
+
+    <script>
+                  
+        async function carregarPublicacoes() {
+            const feed = document.getElementById('feed-publicacoes');
+
+            if (!feed) {
+                console.error('Elemento #feed-publicacoes não encontrado.');
+                return;
+            }
+
+            // Mantém os cards de exemplo enquanto tenta carregar a API.
+            const conteudoOriginal = feed.innerHTML;
+
+            try {
+
+                const resposta = await fetch('/cliente/publicacoes/', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const dados = await resposta.json();
+
+                console.log('Status HTTP:', resposta.status);
+                console.log('Resposta da API:', dados);
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        `Erro HTTP ${resposta.status}: ${JSON.stringify(dados)}`
+                    );
+                }
+
+
+                const publicacoes = Array.isArray(dados)
+                    ? dados
+                    : dados.results;
+
+                if (!Array.isArray(publicacoes)) {
+                    throw new Error('A API não retornou uma lista de publicações.');
+                }
+
+                if (publicacoes.length === 0) {
+                    feed.innerHTML = `
+                        <article class="border-2 border-ink bg-white p-5">
+                            <h2 class="text-xl font-black uppercase">
+                                Nenhuma publicação encontrada
+                            </h2>
+                            <p class="mt-2 text-sm text-ink/70">
+                                Quando houver publicações cadastradas, elas aparecerão aqui.
+                            </p>
+                        </article>
+                    `;
+                    return;
+                }
+
+                // Monta os cards sem inserir texto da API diretamente como HTML.
+                const fragmento = document.createDocumentFragment();
+
+                for (const publicacao of publicacoes) {
+                    const card = document.createElement('article');
+                    card.className =
+                        'border-2 border-ink bg-white p-5 shadow-[4px_4px_0_#d9d9d4] sm:p-7';
+
+                    const titulo = document.createElement('h2');
+                    titulo.className =
+                        'font-display text-2xl uppercase tracking-[-0.04em]';
+                    titulo.textContent = publicacao.titulo || 'Sem título';
+
+                    const descricao = document.createElement('p');
+                    descricao.className =
+                        'mt-4 text-sm leading-relaxed text-ink/75';
+                    descricao.textContent =
+                        publicacao.descricao || 'Sem descrição cadastrada.';
+
+                    const data = document.createElement('p');
+                    data.className = 'mt-3 text-xs text-ink/50';
+
+                    if (publicacao.data_publicacao) {
+                        const dataOriginal = String(publicacao.data_publicacao);
+                        const dataLocal = new Date(`${dataOriginal}T12:00:00`);
+
+                        data.textContent = !Number.isNaN(dataLocal.getTime())
+                            ? `Publicado em ${dataLocal.toLocaleDateString('pt-BR')}`
+                            : `Data: ${dataOriginal}`;
+                    } else {
+                        data.textContent = 'Data não informada';
+                    }
+
+                    const publicador = document.createElement('p');
+                    publicador.className = 'mt-2 text-xs text-ink/50';
+
+                    const referencia = publicacao.publicador;
+                    const nome = typeof referencia === 'object' && referencia !== null
+                        ? referencia.nome
+                        : null;
+
+                    publicador.textContent = nome
+                        ? `Publicador: ${nome}`
+                        : `Publicador ID: ${
+                            typeof referencia === 'object' && referencia !== null
+                                ? referencia.id ?? 'não informado'
+                                : referencia ?? 'não informado'
+                        }`;
+
+                    card.append(titulo, data, publicador, descricao);
+
+                    // Mostra a mídia se o serializer fornecer uma URL utilizável.
+                    const midia = publicacao.midia;
+                    const urlMidia = typeof midia === 'string'
+                        ? midia
+                        : midia?.url || midia?.arquivo || midia?.imagem;
+
+                    if (urlMidia) {
+                        const imagem = document.createElement('img');
+                        imagem.src = urlMidia;
+                        imagem.alt = `Mídia de ${publicacao.titulo || 'jogo'}`;
+                        imagem.className = 'mt-4 max-h-80 w-full object-cover';
+                        imagem.loading = 'lazy';
+
+                        imagem.addEventListener('error', () => imagem.remove());
+                        card.appendChild(imagem);
+                    }
+
+                    fragmento.appendChild(card);
+                }
+
+                // Substitui os exemplos somente depois de obter dados válidos.
+                feed.replaceChildren(fragmento);
+
+            } catch (erro) {
+                console.error('Erro ao carregar o feed:', erro);
+
+                // Não apaga os cards de exemplo se a API falhar.
+                feed.innerHTML = conteudoOriginal;
+
+                let aviso = document.getElementById('aviso-feed-api');
+
+                if (!aviso) {
+                    aviso = document.createElement('p');
+                    aviso.id = 'aviso-feed-api';
+                    aviso.className =
+                        'mb-4 border-2 border-ink bg-white p-3 text-sm';
+                    feed.parentElement.insertBefore(aviso, feed);
+                }
+
+                aviso.textContent =
+                    'Não foi possível conectar à API. Exibindo conteúdo de exemplo.';
+            }
+        }
+
+
+        carregarPublicacoes();
+
         lucide.createIcons();
         const authPanel = document.querySelector('#auth-panel');
         const publisherBar = document.querySelector('#publisher-bar');
