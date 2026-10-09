@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Press Start, uma plataforma de críticas e descobertas de jogos.">
+	<title>{% block title %}Press Start | Críticas de jogos{% endblock %}</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						ink: '#101114',
+						paper: '#f4f1eb',
+						signal: '#e6ff3f',
+						coral: '#ff5c45',
+						mist: '#d9d9d4'
+					},
+					fontFamily: {
+						display: ['Arial Black', 'Arial', 'sans-serif'],
+						sans: ['Arial', 'Helvetica', 'sans-serif']
+					},
+					boxShadow: {
+						hard: '5px 5px 0 #101114'
+					}
+				}
+			}
+		}
+	</script>
+	<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen bg-paper font-sans text-ink antialiased">
+	<div class="border-b-2 border-ink bg-signal px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.18em] sm:text-xs">
+		A comunidade que joga, lê e decide o que vem depois
+	</div>
+
+	<header class="border-b-2 border-ink bg-ink text-paper">
+		<div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-5 lg:px-8">
+			<a href="#inicio" class="flex shrink-0 items-center gap-2" aria-label="Press Start, início">
+				<span class="grid h-10 w-10 place-items-center border-2 border-signal bg-signal text-ink shadow-[3px_3px_0_#ff5c45]">
+					<i data-lucide="gamepad-2" class="h-5 w-5"></i>
+				</span>
+				<span class="font-display text-xl uppercase leading-none tracking-[-0.06em] sm:text-2xl">Press<br>Start</span>
+			</a>
+
+			<nav class="hidden items-center gap-7 text-xs font-black uppercase tracking-[0.12em] md:flex" aria-label="Navegação principal">
+				<a href="#feed" class="text-signal transition-colors hover:text-white">Feed</a>
+				<a href="#explorar" class="transition-colors hover:text-signal">Explorar</a>
+				<a href="#sobre" class="transition-colors hover:text-signal">Sobre a comunidade</a>
+			</nav>
+
+			<div class="flex items-center gap-2">
+				<button type="button" class="hidden items-center gap-2 px-3 py-2 text-xs font-black uppercase tracking-[0.1em] text-paper transition hover:text-signal sm:flex" data-auth="login">
+					<i data-lucide="log-in" class="h-4 w-4"></i> Entrar
+				</button>
+				<button type="button" class="flex items-center gap-2 border-2 border-signal bg-signal px-3 py-2 text-xs font-black uppercase tracking-[0.1em] text-ink shadow-[3px_3px_0_#ff5c45] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none" data-auth="register">
+					<i data-lucide="user-plus" class="h-4 w-4"></i><span class="hidden sm:inline">Criar conta</span><span class="sm:hidden">Conta</span>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<main>{% block content %}{% endblock %}</main>
+
+	{% include 'components/footer.html' %}
+
+	<div id="auth-panel" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+		<div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
+			<div class="mb-8 flex items-start justify-between gap-4">
+				<div>
+					<p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Junte-se ao feed</p>
+					<h2 id="auth-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Sua voz<br>tem nota.</h2>
+				</div>
+				<button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-auth aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button>
+			</div>
+			<div class="mb-6 grid grid-cols-2 border-2 border-ink p-1 text-xs font-black uppercase tracking-[0.12em]">
+				<button type="button" class="bg-ink px-3 py-3 text-paper" data-auth-tab="login">Entrar</button>
+				<button type="button" class="px-3 py-3" data-auth-tab="register">Criar conta</button>
+			</div>
+			<form class="space-y-4" data-auth-form>
+				<label class="block text-xs font-black uppercase tracking-[0.1em]">E-mail<input type="email" placeholder="voce@email.com" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label>
+				<label class="block text-xs font-black uppercase tracking-[0.1em]">Senha<input type="password" placeholder="••••••••" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label>
+				<button type="submit" class="flex w-full items-center justify-center gap-2 border-2 border-ink bg-coral px-4 py-4 text-xs font-black uppercase tracking-[0.15em] text-ink shadow-[3px_3px_0_#101114] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none">Continuar <i data-lucide="arrow-right" class="h-4 w-4"></i></button>
+			</form>
+			<p class="mt-5 text-center text-xs leading-relaxed text-ink/60">Ao continuar, você concorda com as regras da comunidade Press Start.</p>
+		</div>
+	</div>
+	<script>
+		lucide.createIcons();
+		const authPanel = document.querySelector('#auth-panel');
+		document.querySelectorAll('[data-auth]').forEach((button) => button.addEventListener('click', () => authPanel.classList.replace('hidden', 'flex')));
+		document.querySelector('[data-close-auth]').addEventListener('click', () => authPanel.classList.replace('flex', 'hidden'));
+		authPanel.addEventListener('click', (event) => { if (event.target === authPanel) authPanel.classList.replace('flex', 'hidden'); });
+	</script>
+</body>
+</html>

@@ -1,11 +1,178 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="description" content="Press Start, uma plataforma de críticas e descobertas de jogos.">
+    <title>Press Start | Críticas de jogos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { ink: '#101114', paper: '#f4f1eb', signal: '#e6ff3f', coral: '#ff5c45', mist: '#d9d9d4' },
+                    fontFamily: { display: ['Arial Black', 'Arial', 'sans-serif'], sans: ['Arial', 'Helvetica', 'sans-serif'] },
+                    boxShadow: { hard: '5px 5px 0 #101114' }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
-    
+<body class="min-h-screen bg-paper font-sans text-ink antialiased">
+    <div class="border-b-2 border-ink bg-signal px-4 py-2 text-center text-[11px] font-black uppercase tracking-[0.18em] sm:text-xs">A comunidade que joga, lê e decide o que vem depois</div>
+    <header class="border-b-2 border-ink bg-ink text-paper">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-5 lg:px-8">
+            <a href="#inicio" class="flex shrink-0 items-center gap-2" aria-label="Press Start, início"><span class="grid h-10 w-10 place-items-center border-2 border-signal bg-signal text-ink shadow-[3px_3px_0_#ff5c45]"><i data-lucide="gamepad-2" class="h-5 w-5"></i></span><span class="font-display text-xl uppercase leading-none tracking-[-0.06em] sm:text-2xl">Press<br>Start</span></a>
+            <nav class="hidden items-center gap-7 text-xs font-black uppercase tracking-[0.12em] md:flex" aria-label="Navegação principal"><a href="#feed" class="text-signal transition-colors hover:text-white">Feed</a><a href="#explorar" class="transition-colors hover:text-signal">Explorar</a><a href="#sobre" class="transition-colors hover:text-signal">Sobre a comunidade</a></nav>
+            <div class="flex items-center gap-2"><button type="button" class="hidden items-center gap-2 px-3 py-2 text-xs font-black uppercase tracking-[0.1em] text-paper transition hover:text-signal sm:flex" data-auth="login"><i data-lucide="log-in" class="h-4 w-4"></i> Entrar</button><button type="button" class="flex items-center gap-2 border-2 border-signal bg-signal px-3 py-2 text-xs font-black uppercase tracking-[0.1em] text-ink shadow-[3px_3px_0_#ff5c45] transition hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none" data-auth="register"><i data-lucide="user-plus" class="h-4 w-4"></i><span class="hidden sm:inline">Criar conta</span><span class="sm:hidden">Conta</span></button></div>
+        </div>
+    </header>
+    <section id="publisher-bar" class="hidden border-b-2 border-ink bg-white" aria-label="Ações do publicador">
+        <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+            <div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center bg-coral text-ink"><i data-lucide="briefcase-business" class="h-5 w-5"></i></span><div><p class="text-[10px] font-black uppercase tracking-[0.18em] text-coral">Modo publicador</p><p class="text-sm font-black uppercase">Estúdio Lumen <span class="font-normal normal-case text-ink/50">· conta verificada</span></p></div></div>
+            <div class="flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-[0.12em]"><button type="button" class="flex items-center gap-2 border-2 border-ink bg-signal px-3 py-2 hover:bg-ink hover:text-paper" data-publisher-modal="publish"><i data-lucide="plus" class="h-4 w-4"></i> Novo jogo</button><button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-publisher-modal="edit"><i data-lucide="pencil" class="h-4 w-4"></i> Editar publicação</button><button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-publisher-modal="replies"><i data-lucide="message-square-reply" class="h-4 w-4"></i> Responder críticas</button><button type="button" class="border-2 border-ink px-3 py-2 text-coral hover:bg-coral hover:text-ink" data-exit-publisher aria-label="Sair do modo publicador"><i data-lucide="log-out" class="h-4 w-4"></i></button></div>
+        </div>
+    </section>
+    <section id="reviewer-bar" class="hidden border-b-2 border-ink bg-white" aria-label="Ações do avaliador">
+        <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+            <div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center bg-signal text-ink"><i data-lucide="scan-search" class="h-5 w-5"></i></span><div><p class="text-[10px] font-black uppercase tracking-[0.18em] text-coral">Modo avaliador</p><p class="text-sm font-black uppercase">Camila Rocha <span class="font-normal normal-case text-ink/50">· membro desde 2024</span></p></div></div>
+            <div class="flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-[0.12em]"><button type="button" class="flex items-center gap-2 border-2 border-ink bg-signal px-3 py-2 hover:bg-ink hover:text-paper" data-reviewer-modal="rate"><i data-lucide="pen-line" class="h-4 w-4"></i> Avaliar jogo</button><button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-reviewer-modal="reviews"><i data-lucide="book-open-check" class="h-4 w-4"></i> Minhas avaliações</button><button type="button" class="border-2 border-ink px-3 py-2 text-coral hover:bg-coral hover:text-ink" data-exit-reviewer aria-label="Sair do modo avaliador"><i data-lucide="log-out" class="h-4 w-4"></i></button></div>
+        </div>
+    </section>
+    <main>
+<section id="inicio" class="border-b-2 border-ink bg-paper">
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:py-16 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-20">
+        <div class="flex flex-col justify-center">
+            <p class="mb-5 flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-coral"><span class="h-2 w-2 bg-coral"></span> O placar da comunidade</p>
+            <h1 class="max-w-3xl font-display text-5xl uppercase leading-[0.86] tracking-[-0.075em] sm:text-7xl lg:text-8xl">Opiniões<br><span class="text-coral">que jogam</span><br>junto.</h1>
+            <p class="mt-7 max-w-lg text-base leading-relaxed text-ink/70">Descubra o que vale seu tempo. Avaliações honestas, conversas sem filtro e uma comunidade que entende que jogar também é ter algo a dizer.</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+                <a href="#feed" class="flex items-center gap-2 border-2 border-ink bg-ink px-5 py-3 text-xs font-black uppercase tracking-[0.15em] text-paper shadow-[4px_4px_0_#ff5c45] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_#ff5c45]">Ler o feed <i data-lucide="arrow-down" class="h-4 w-4"></i></a>
+                <button type="button" class="flex items-center gap-2 border-2 border-ink px-5 py-3 text-xs font-black uppercase tracking-[0.15em] hover:bg-signal" data-auth="register">Quero avaliar <i data-lucide="pen-line" class="h-4 w-4"></i></button>
+            </div>
+        </div>
+        <div class="relative min-h-[360px] overflow-hidden border-2 border-ink bg-ink shadow-hard sm:min-h-[430px]">
+            <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1200&q=85" alt="Pessoa jogando videogame em uma sala escura" class="absolute inset-0 h-full w-full object-cover opacity-80 grayscale-[20%]">
+            <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent"></div>
+            <div class="absolute left-5 top-5 border-2 border-signal bg-signal px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-ink">Em alta agora</div>
+            <div class="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4 text-paper">
+                <div><p class="mb-1 text-[10px] font-black uppercase tracking-[0.18em] text-signal">Jogo da semana</p><h2 class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Neon<br>Revenant</h2></div>
+                <div class="border-2 border-signal bg-ink px-3 py-2 text-center"><span class="block font-display text-3xl leading-none text-signal">92</span><span class="text-[9px] font-black uppercase tracking-[0.15em]">Nota</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="feed" class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-16">
+    <div class="mb-8 flex flex-col justify-between gap-5 border-b-2 border-ink pb-5 sm:flex-row sm:items-end">
+        <div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Interações recentes</p><h2 class="font-display text-4xl uppercase leading-none tracking-[-0.06em] sm:text-5xl">Feed de críticas</h2></div>
+        <div class="flex items-center gap-2"><button class="border-2 border-ink bg-ink px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-paper">Mais recentes</button><button class="border-2 border-ink px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] hover:bg-signal">Mais lidas</button></div>
+    </div>
+    <div class="grid gap-6 lg:grid-cols-[1fr_310px]">
+        <div class="space-y-5">
+            <article class="border-2 border-ink bg-white p-5 shadow-[4px_4px_0_#d9d9d4] sm:p-7">
+                <div class="mb-5 flex items-start justify-between gap-4"><div class="flex items-center gap-3"><div class="grid h-11 w-11 place-items-center bg-coral font-display text-lg">MS</div><div><h3 class="text-sm font-black uppercase">Marina S.</h3><p class="text-xs text-ink/50">Avaliadora · há 12 min</p></div></div><span class="border-2 border-ink bg-signal px-2 py-1 text-[10px] font-black uppercase tracking-[0.1em]">Positivo</span></div>
+                <div class="mb-4 flex items-center justify-between gap-3"><h2 class="font-display text-2xl uppercase tracking-[-0.04em]">Neon Revenant</h2><span class="font-display text-3xl text-coral">9.5</span></div>
+                <p class="max-w-2xl text-sm leading-relaxed text-ink/75">É raro um jogo entender tão bem que estilo não é só estética. Cada tela parece uma capa de disco, mas é na trilha sonora e no ritmo do combate que ele realmente ganha personalidade.</p>
+                <div class="mt-6 flex items-center gap-5 border-t border-mist pt-4 text-xs font-bold text-ink/50"><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="heart" class="h-4 w-4"></i> 24</button><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="message-circle" class="h-4 w-4"></i> 8 comentários</button><button class="ml-auto hover:text-ink" aria-label="Compartilhar crítica"><i data-lucide="share-2" class="h-4 w-4"></i></button></div>
+            </article>
+            <article class="border-2 border-ink bg-white p-5 shadow-[4px_4px_0_#d9d9d4] sm:p-7">
+                <div class="mb-5 flex items-start justify-between gap-4"><div class="flex items-center gap-3"><div class="grid h-11 w-11 place-items-center bg-ink font-display text-lg text-signal">RL</div><div><h3 class="text-sm font-black uppercase">Rui Lima</h3><p class="text-xs text-ink/50">Avaliador · há 1 h</p></div></div><span class="border-2 border-ink bg-coral px-2 py-1 text-[10px] font-black uppercase tracking-[0.1em]">Negativo</span></div>
+                <div class="mb-4 flex items-center justify-between gap-3"><h2 class="font-display text-2xl uppercase tracking-[-0.04em]">The Last Signal</h2><span class="font-display text-3xl text-coral">4.0</span></div>
+                <p class="max-w-2xl text-sm leading-relaxed text-ink/75">A ideia é ótima, o mundo é lindo, mas a repetição pesa antes da história conseguir decolar. Queria ter gostado mais, especialmente com um universo tão bem construído.</p>
+                <div class="mt-6 flex items-center gap-5 border-t border-mist pt-4 text-xs font-bold text-ink/50"><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="heart" class="h-4 w-4"></i> 11</button><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="message-circle" class="h-4 w-4"></i> 3 comentários</button><button class="ml-auto hover:text-ink" aria-label="Compartilhar crítica"><i data-lucide="share-2" class="h-4 w-4"></i></button></div>
+            </article>
+            <article class="border-2 border-ink bg-white p-5 shadow-[4px_4px_0_#d9d9d4] sm:p-7">
+                <div class="mb-5 flex items-start justify-between gap-4"><div class="flex items-center gap-3"><div class="grid h-11 w-11 place-items-center bg-signal font-display text-lg">BC</div><div><h3 class="text-sm font-black uppercase">Bia Costa</h3><p class="text-xs text-ink/50">Avaliadora · há 3 h</p></div></div><span class="border-2 border-ink bg-signal px-2 py-1 text-[10px] font-black uppercase tracking-[0.1em]">Positivo</span></div>
+                <div class="mb-4 flex items-center justify-between gap-3"><h2 class="font-display text-2xl uppercase tracking-[-0.04em]">Garden Story</h2><span class="font-display text-3xl text-coral">8.0</span></div>
+                <p class="max-w-2xl text-sm leading-relaxed text-ink/75">Pequeno, delicado e com uma vontade enorme de fazer você sorrir. Um ótimo respiro entre aventuras apocalípticas e mundos que querem salvar o universo.</p>
+                <div class="mt-6 flex items-center gap-5 border-t border-mist pt-4 text-xs font-bold text-ink/50"><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="heart" class="h-4 w-4"></i> 38</button><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="message-circle" class="h-4 w-4"></i> 12 comentários</button><button class="ml-auto hover:text-ink" aria-label="Compartilhar crítica"><i data-lucide="share-2" class="h-4 w-4"></i></button></div>
+            </article>
+        </div>
+        <aside id="explorar" class="h-fit border-2 border-ink bg-ink p-5 text-paper lg:sticky lg:top-6">
+            <p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-signal">Para explorar</p><h2 class="mb-6 font-display text-3xl uppercase leading-none tracking-[-0.05em]">O que a<br>comunidade<br>está jogando</h2>
+            <div class="space-y-4 border-t border-paper/20 pt-4"><div class="flex items-center justify-between gap-3"><div><p class="text-sm font-black uppercase">Hollow Knight</p><p class="text-xs text-paper/50">1.248 críticas</p></div><span class="font-display text-2xl text-signal">96</span></div><div class="flex items-center justify-between gap-3"><div><p class="text-sm font-black uppercase">Celeste</p><p class="text-xs text-paper/50">986 críticas</p></div><span class="font-display text-2xl text-signal">94</span></div><div class="flex items-center justify-between gap-3"><div><p class="text-sm font-black uppercase">Solar Ash</p><p class="text-xs text-paper/50">534 críticas</p></div><span class="font-display text-2xl text-signal">81</span></div></div>
+            <button class="mt-7 flex w-full items-center justify-between border-2 border-signal px-4 py-3 text-[10px] font-black uppercase tracking-[0.15em] text-signal hover:bg-signal hover:text-ink">Ver todos os jogos <i data-lucide="arrow-up-right" class="h-4 w-4"></i></button>
+        </aside>
+    </div>
+</section>
+
+<section id="sobre" class="border-y-2 border-ink bg-signal">
+    <div class="mx-auto flex max-w-7xl flex-col justify-between gap-8 px-4 py-12 sm:flex-row sm:items-center lg:px-8 lg:py-16"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em]">Você publica jogos?</p><h2 class="max-w-xl font-display text-4xl uppercase leading-[0.9] tracking-[-0.06em] sm:text-5xl">Coloque seu jogo<br>na conversa.</h2></div><button type="button" data-auth="register" class="flex shrink-0 items-center gap-3 border-2 border-ink bg-ink px-5 py-4 text-xs font-black uppercase tracking-[0.15em] text-paper shadow-[4px_4px_0_#ff5c45] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_#ff5c45]">Criar conta de publicador <i data-lucide="arrow-right" class="h-4 w-4"></i></button></div>
+</section>
+    </main>
+    <footer class="bg-ink text-paper">
+        <div class="mx-auto max-w-7xl px-4 py-10 lg:px-8 lg:py-14">
+            <div class="flex flex-col justify-between gap-10 border-b border-paper/20 pb-10 sm:flex-row"><div><a href="#inicio" class="font-display text-3xl uppercase leading-[0.8] tracking-[-0.06em]">Press<br><span class="text-signal">Start</span></a><p class="mt-5 max-w-xs text-xs leading-relaxed text-paper/55">Uma plataforma feita para quem joga com curiosidade e conversa com respeito.</p></div><div class="grid grid-cols-2 gap-x-12 gap-y-3 text-[10px] font-black uppercase tracking-[0.14em] sm:grid-cols-3"><a href="#feed" class="hover:text-signal">Feed</a><a href="#explorar" class="hover:text-signal">Jogos</a><a href="#sobre" class="hover:text-signal">Publicadores</a><a href="#" class="hover:text-signal">Regras</a><a href="#" class="hover:text-signal">Privacidade</a><a href="#" class="hover:text-signal">Contato</a></div></div>
+            <div class="flex flex-col justify-between gap-3 pt-6 text-[10px] font-bold uppercase tracking-[0.12em] text-paper/40 sm:flex-row"><span>© 2024 Press Start</span><span>Feito para jogar. Feito para falar.</span></div>
+        </div>
+    </footer>
+    <div id="auth-panel" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8"><div class="mb-8 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Junte-se ao feed</p><h2 id="auth-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Sua voz<br>tem nota.</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-auth aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div><div class="mb-6 grid grid-cols-2 border-2 border-ink p-1 text-xs font-black uppercase tracking-[0.12em]"><button type="button" class="bg-ink px-3 py-3 text-paper">Entrar</button><button type="button" class="px-3 py-3">Criar conta</button></div><form class="space-y-4"><label class="block text-xs font-black uppercase tracking-[0.1em]">E-mail<input type="email" placeholder="voce@email.com" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label><label class="block text-xs font-black uppercase tracking-[0.1em]">Senha<input type="password" placeholder="••••••••" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label><button type="submit" class="flex w-full items-center justify-center gap-2 border-2 border-ink bg-coral px-4 py-4 text-xs font-black uppercase tracking-[0.15em] text-ink shadow-[3px_3px_0_#101114]">Continuar <i data-lucide="arrow-right" class="h-4 w-4"></i></button></form><div class="mt-6 border-t-2 border-ink pt-5"><p class="mb-3 text-[10px] font-black uppercase tracking-[0.14em] text-ink/60">Prévia de permissões</p><div class="space-y-2"><button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-reviewer>Entrar como avaliador <i data-lucide="scan-search" class="h-4 w-4"></i></button><button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-publisher>Entrar como publicador <i data-lucide="briefcase-business" class="h-4 w-4"></i></button></div></div><p class="mt-5 text-center text-xs leading-relaxed text-ink/60">Ao continuar, você concorda com as regras da comunidade Press Start.</p></div>
+    </div>
+    <div id="publisher-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="publisher-modal-title">
+        <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
+            <div class="mb-8 flex items-start justify-between gap-4"><div><p id="publisher-modal-kicker" class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Ferramenta editorial</p><h2 id="publisher-modal-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Novo jogo</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-publisher aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div>
+            <form id="publisher-form" class="space-y-5">
+                <div data-publisher-view="publish edit" class="grid gap-4"><label class="block text-xs font-black uppercase tracking-[0.1em]">Nome do jogo<input value="Neon Revenant" type="text" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label><label class="block text-xs font-black uppercase tracking-[0.1em]">Sinopse<textarea rows="4" placeholder="Apresente seu jogo para a comunidade..." class="mt-2 w-full resize-none border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></textarea></label></div>
+                <div data-publisher-view="publish edit" class="border-2 border-dashed border-ink bg-white p-4"><div class="mb-3 flex items-center justify-between"><p class="text-xs font-black uppercase tracking-[0.1em]">Mídia do jogo</p><span class="text-[10px] font-bold uppercase text-ink/50">PNG, JPG ou MP4</span></div><div class="grid gap-3 sm:grid-cols-3"><button type="button" class="flex h-24 flex-col items-center justify-center gap-2 border-2 border-ink text-[10px] font-black uppercase hover:bg-signal"><i data-lucide="image-plus" class="h-5 w-5"></i>Capa</button><button type="button" class="flex h-24 flex-col items-center justify-center gap-2 border-2 border-ink text-[10px] font-black uppercase hover:bg-signal"><i data-lucide="images" class="h-5 w-5"></i>Galeria</button><button type="button" class="flex h-24 flex-col items-center justify-center gap-2 border-2 border-ink text-[10px] font-black uppercase hover:bg-signal"><i data-lucide="play-square" class="h-5 w-5"></i>Trailer</button></div></div>
+                <div data-publisher-view="replies" class="hidden space-y-3"><div class="border-2 border-ink bg-white p-4"><div class="mb-3 flex items-center justify-between"><p class="text-xs font-black uppercase">Rui Lima · The Last Signal</p><span class="text-[10px] font-bold text-ink/50">há 1 h</span></div><p class="mb-4 text-sm leading-relaxed text-ink/70">“A ideia é ótima, o mundo é lindo, mas a repetição pesa...”</p><textarea rows="3" placeholder="Responda com respeito e contexto..." class="w-full resize-none border-2 border-ink bg-paper px-3 py-3 text-sm outline-none focus:border-coral"></textarea></div><div class="border-2 border-ink bg-white p-4"><div class="mb-3 flex items-center justify-between"><p class="text-xs font-black uppercase">Bia Costa · Garden Story</p><span class="text-[10px] font-bold text-ink/50">há 3 h</span></div><p class="mb-4 text-sm leading-relaxed text-ink/70">“Pequeno, delicado e com uma vontade enorme de fazer você sorrir.”</p><textarea rows="3" placeholder="Agradeça ou compartilhe uma novidade..." class="w-full resize-none border-2 border-ink bg-paper px-3 py-3 text-sm outline-none focus:border-coral"></textarea></div></div>
+                <div class="flex flex-col-reverse justify-between gap-3 border-t-2 border-ink pt-5 sm:flex-row sm:items-center"><button type="button" class="text-xs font-black uppercase tracking-[0.1em] text-ink/60 hover:text-coral" data-close-publisher>Cancelar</button><button type="submit" class="flex items-center justify-center gap-2 border-2 border-ink bg-coral px-5 py-3 text-xs font-black uppercase tracking-[0.15em] shadow-[3px_3px_0_#101114] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"><span id="publisher-submit-label">Publicar jogo</span><i data-lucide="arrow-right" class="h-4 w-4"></i></button></div>
+            </form>
+        </div>
+    </div>
+    <div id="reviewer-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="reviewer-modal-title">
+        <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
+            <div class="mb-8 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Interação da comunidade</p><h2 id="reviewer-modal-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Avaliar jogo</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-reviewer aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div>
+            <form id="reviewer-form" class="space-y-5">
+                <div data-reviewer-view="rate"><label class="block text-xs font-black uppercase tracking-[0.1em]">Escolha um jogo cadastrado<select class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"><option>Neon Revenant · 92</option><option>The Last Signal · 76</option><option>Garden Story · 84</option><option>Solar Ash · 81</option></select></label><p class="mt-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-ink/50"><i data-lucide="info" class="h-3.5 w-3.5"></i> Você só pode avaliar jogos publicados na plataforma.</p><div class="mt-6"><div class="mb-3 flex items-center justify-between gap-3"><p class="text-xs font-black uppercase tracking-[0.1em]">Sua nota</p><div class="flex items-center gap-2"><input id="review-score" type="number" min="0" max="100" value="80" class="w-20 border-2 border-ink bg-white px-2 py-2 text-center font-display text-xl outline-none focus:border-coral" aria-label="Nota de 0 a 100"><span class="text-xs font-black uppercase text-ink/50">/ 100</span></div></div><input id="review-score-range" type="range" min="0" max="100" value="80" class="h-2 w-full cursor-pointer accent-coral" aria-label="Escolha uma nota de 0 a 100"><div class="mt-1 flex justify-between text-[10px] font-black text-ink/40"><span>0 · Não funcionou</span><span>100 · Obra-prima</span></div></div><div class="mt-6"><p class="mb-3 text-xs font-black uppercase tracking-[0.1em]">Sua recomendação</p><div class="grid gap-3 sm:grid-cols-2"><button type="button" class="flex items-center gap-3 border-2 border-ink bg-signal px-4 py-4 text-left hover:bg-ink hover:text-paper" data-recommendation="positive"><i data-lucide="thumbs-up" class="h-5 w-5"></i><span><strong class="block text-xs uppercase">Recomendo</strong><small class="text-[11px] normal-case opacity-60">Jogaria de novo</small></span></button><button type="button" class="flex items-center gap-3 border-2 border-ink bg-white px-4 py-4 text-left hover:bg-coral" data-recommendation="negative"><i data-lucide="thumbs-down" class="h-5 w-5"></i><span><strong class="block text-xs uppercase">Não recomendo</strong><small class="text-[11px] normal-case opacity-60">Não funcionou para mim</small></span></button></div></div><label class="mt-6 block text-xs font-black uppercase tracking-[0.1em]">Seu comentário <span class="font-normal normal-case text-ink/50">(opcional)</span><textarea rows="5" placeholder="Conte o que você achou do jogo..." class="mt-2 w-full resize-none border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></textarea></label></div>
+                <div data-reviewer-view="reviews" class="hidden space-y-3"><div class="border-2 border-ink bg-white p-4"><div class="flex items-center justify-between"><p class="text-xs font-black uppercase">Neon Revenant</p><span class="border-2 border-ink bg-signal px-2 py-1 text-[10px] font-black uppercase">Recomendo</span></div><p class="mt-3 text-sm leading-relaxed text-ink/70">“Cada tela parece uma capa de disco, mas é na trilha sonora que ele realmente ganha personalidade.”</p><p class="mt-3 text-[10px] font-bold uppercase text-ink/40">Publicada há 2 dias</p></div><div class="border-2 border-ink bg-white p-4"><div class="flex items-center justify-between"><p class="text-xs font-black uppercase">Garden Story</p><span class="border-2 border-ink bg-signal px-2 py-1 text-[10px] font-black uppercase">Recomendo</span></div><p class="mt-3 text-sm leading-relaxed text-ink/70">“Pequeno, delicado e com uma vontade enorme de fazer você sorrir.”</p><p class="mt-3 text-[10px] font-bold uppercase text-ink/40">Publicada há 1 semana</p></div></div>
+                <div class="flex flex-col-reverse justify-between gap-3 border-t-2 border-ink pt-5 sm:flex-row sm:items-center"><button type="button" class="text-xs font-black uppercase tracking-[0.1em] text-ink/60 hover:text-coral" data-close-reviewer>Cancelar</button><button type="submit" class="flex items-center justify-center gap-2 border-2 border-ink bg-coral px-5 py-3 text-xs font-black uppercase tracking-[0.15em] shadow-[3px_3px_0_#101114] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"><span id="reviewer-submit-label">Publicar avaliação</span><i data-lucide="arrow-right" class="h-4 w-4"></i></button></div>
+            </form>
+        </div>
+    </div>
+    <script>
+        lucide.createIcons();
+        const authPanel = document.querySelector('#auth-panel');
+        const publisherBar = document.querySelector('#publisher-bar');
+        const publisherModal = document.querySelector('#publisher-modal');
+        const reviewerBar = document.querySelector('#reviewer-bar');
+        const reviewerModal = document.querySelector('#reviewer-modal');
+        const publisherTitle = document.querySelector('#publisher-modal-title');
+        const publisherSubmitLabel = document.querySelector('#publisher-submit-label');
+        document.querySelectorAll('[data-auth]').forEach((button) => button.addEventListener('click', () => authPanel.classList.replace('hidden', 'flex')));
+        document.querySelector('[data-close-auth]').addEventListener('click', () => authPanel.classList.replace('flex', 'hidden'));
+        authPanel.addEventListener('click', (event) => { if (event.target === authPanel) authPanel.classList.replace('flex', 'hidden'); });
+        document.querySelector('[data-enter-publisher]').addEventListener('click', () => { authPanel.classList.replace('flex', 'hidden'); publisherBar.classList.remove('hidden'); publisherBar.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        document.querySelector('[data-enter-reviewer]').addEventListener('click', () => { authPanel.classList.replace('flex', 'hidden'); reviewerBar.classList.remove('hidden'); reviewerBar.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        document.querySelector('[data-exit-publisher]').addEventListener('click', () => publisherBar.classList.add('hidden'));
+        document.querySelector('[data-exit-reviewer]').addEventListener('click', () => reviewerBar.classList.add('hidden'));
+        document.querySelectorAll('[data-publisher-modal]').forEach((button) => button.addEventListener('click', () => {
+            const mode = button.dataset.publisherModal;
+            publisherTitle.textContent = mode === 'edit' ? 'Editar publicação' : mode === 'replies' ? 'Responder críticas' : 'Novo jogo';
+            publisherSubmitLabel.textContent = mode === 'edit' ? 'Salvar alterações' : mode === 'replies' ? 'Publicar respostas' : 'Publicar jogo';
+            document.querySelectorAll('[data-publisher-view]').forEach((view) => view.classList.toggle('hidden', !view.dataset.publisherView.split(' ').includes(mode)));
+            publisherModal.classList.replace('hidden', 'flex');
+        }));
+        document.querySelectorAll('[data-close-publisher]').forEach((button) => button.addEventListener('click', () => publisherModal.classList.replace('flex', 'hidden')));
+        publisherModal.addEventListener('click', (event) => { if (event.target === publisherModal) publisherModal.classList.replace('flex', 'hidden'); });
+        document.querySelector('#publisher-form').addEventListener('submit', (event) => { event.preventDefault(); publisherModal.classList.replace('flex', 'hidden'); });
+        document.querySelectorAll('[data-reviewer-modal]').forEach((button) => button.addEventListener('click', () => {
+            const mode = button.dataset.reviewerModal;
+            document.querySelector('#reviewer-modal-title').textContent = mode === 'reviews' ? 'Minhas avaliações' : 'Avaliar jogo';
+            document.querySelector('#reviewer-submit-label').textContent = mode === 'reviews' ? 'Fechar' : 'Publicar avaliação';
+            document.querySelectorAll('[data-reviewer-view]').forEach((view) => view.classList.toggle('hidden', view.dataset.reviewerView !== mode));
+            reviewerModal.classList.replace('hidden', 'flex');
+        }));
+        document.querySelectorAll('[data-close-reviewer]').forEach((button) => button.addEventListener('click', () => reviewerModal.classList.replace('flex', 'hidden')));
+        reviewerModal.addEventListener('click', (event) => { if (event.target === reviewerModal) reviewerModal.classList.replace('flex', 'hidden'); });
+        document.querySelectorAll('[data-recommendation]').forEach((button) => button.addEventListener('click', () => document.querySelectorAll('[data-recommendation]').forEach((option) => option.classList.toggle('ring-4', option === button))));
+        const reviewScore = document.querySelector('#review-score');
+        const reviewScoreRange = document.querySelector('#review-score-range');
+        reviewScore.addEventListener('input', () => { reviewScore.value = Math.min(100, Math.max(0, reviewScore.value)); reviewScoreRange.value = reviewScore.value; });
+        reviewScoreRange.addEventListener('input', () => { reviewScore.value = reviewScoreRange.value; });
+        document.querySelector('#reviewer-form').addEventListener('submit', (event) => { event.preventDefault(); reviewerModal.classList.replace('flex', 'hidden'); });
+    </script>
 </body>
 </html>
