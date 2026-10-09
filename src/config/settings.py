@@ -53,7 +53,12 @@ SWAGGER_SETTINGS = {
         'in': 'header',
         'description': 'JWT Authorization. Use o formato: Bearer <seu_token>'
         }
-    }
+    },
+
+    "SECURITY_REQUIREMENTS": [
+        {"Bearer": []}
+    ],
+    "USE_SESSION_AUTH": False,
 }
 
 from datetime import timedelta
