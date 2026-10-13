@@ -1,9 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
 
 class PublicadorModel(models.Model):
+    usuario = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="perfil_publicador",
+        null=True,
+        blank=True,
+    )
     nome = models.CharField(max_length=255, null=False, blank=False)
     email = models.EmailField(max_length=255, null=False, blank=False)
     especialidade = models.CharField(max_length=255, null=False, blank=False)

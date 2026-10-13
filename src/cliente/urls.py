@@ -1,9 +1,20 @@
 from django.urls import path
 from .views import ClienteViewSet
+from .views import CadastroAvaliadorView, CadastroPublicadorView
 
 app_name = "cliente"
 
 urlpatterns = [
+    path(
+        "cadastro/avaliador/",
+        CadastroAvaliadorView.as_view(),
+        name="cadastro-avaliador",
+    ),
+    path(
+        "cadastro/publicador/",
+        CadastroPublicadorView.as_view(),
+        name="cadastro-publicador",
+    ),
     # PUBLICADORES
     path(
         "publicadores/",
@@ -84,4 +95,3 @@ urlpatterns = [
         name="avaliacao-detalhe",
     ),
 ]
-

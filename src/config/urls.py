@@ -20,6 +20,7 @@ from rest_framework import routers
 from interacoes.views import AvaliadorViewSet, AvaliacaoViewSet
 from gerencia.views import PublicacaoViewSet, PublicadorViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from cliente.authentication import TipoTokenSerializer
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -42,13 +43,18 @@ permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
+    path("", include("app.urls")),
     path('admin/', admin.site.urls),
     path('api/', include("app.urls")),
     #path('api/', include('cliente.urls')),
     #path('api/', include('interacoes.urls')),
     #path('api/', include('gerencia.urls')),
     path('api/', include(router.urls)),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path(
+        'api/token/',
+        TokenObtainPairView.as_view(serializer_class=TipoTokenSerializer),
+        name='token_obtain_pair',
+    ),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc-ui'),

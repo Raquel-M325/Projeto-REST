@@ -1,10 +1,62 @@
 
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework import generics, permissions, status
+from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from .service import ClienteService
+from .serializers import CadastroAvaliadorSerializer, CadastroPublicadorSerializer
+
+
+def tokens_para_usuario(user, tipo):
+    refresh = RefreshToken.for_user(user)
+    refresh["tipo"] = tipo
+    perfil = getattr(user, f"perfil_{tipo}", None)
+    refresh["nome"] = perfil.nome if perfil else user.username
+    return {
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
+        "tipo": tipo,
+        "nome": perfil.nome if perfil else user.username,
+    }
+
+
+class CadastroAvaliadorView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CadastroAvaliadorSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user, perfil = serializer.save()
+        return Response(
+            {
+                "mensagem": "Avaliador cadastrado com sucesso.",
+                "perfil": {"id": perfil.id, "nome": perfil.nome},
+                **tokens_para_usuario(user, "avaliador"),
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+
+class CadastroPublicadorView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CadastroPublicadorSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user, perfil = serializer.save()
+        return Response(
+            {
+                "mensagem": "Publicador cadastrado com sucesso.",
+                "perfil": {"id": perfil.id, "nome": perfil.nome},
+                **tokens_para_usuario(user, "publicador"),
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class ClienteViewSet(viewsets.ViewSet):
