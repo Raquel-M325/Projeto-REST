@@ -49,7 +49,7 @@ urlpatterns = [
     #path('api/', include('cliente.urls')),
     #path('api/', include('interacoes.urls')),
     #path('api/', include('gerencia.urls')),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
     path(
         'api/token/',
         TokenObtainPairView.as_view(serializer_class=TipoTokenSerializer),

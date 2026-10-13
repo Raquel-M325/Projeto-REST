@@ -115,7 +115,31 @@
         </div>
     </footer>
     <div id="auth-panel" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-        <div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8"><div class="mb-8 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Junte-se ao feed</p><h2 id="auth-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Sua voz<br>tem nota.</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-auth aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div><div class="mb-6 grid grid-cols-2 border-2 border-ink p-1 text-xs font-black uppercase tracking-[0.12em]"><button type="button" class="bg-ink px-3 py-3 text-paper">Entrar</button><button type="button" class="px-3 py-3">Criar conta</button></div>        <form id="auth-form" class="space-y-4"><label class="block text-xs font-black uppercase tracking-[0.1em]">Usuário<input id="auth-email" name="username" type="text" required autocomplete="username" placeholder="seu usuário" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label><label class="block text-xs font-black uppercase tracking-[0.1em]">Senha<input id="auth-password" name="password" type="password" required autocomplete="current-password" placeholder="••••••••" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label><p id="auth-message" class="hidden border-2 border-coral bg-white p-3 text-xs font-bold"></p><button type="submit" class="flex w-full items-center justify-center gap-2 border-2 border-ink bg-coral px-4 py-4 text-xs font-black uppercase tracking-[0.15em] text-ink shadow-[3px_3px_0_#101114]">Entrar <i data-lucide="arrow-right" class="h-4 w-4"></i></button></form><div class="mt-6 border-t-2 border-ink pt-5"><p class="mb-3 text-[10px] font-black uppercase tracking-[0.14em] text-ink/60">Prévia de permissões</p><div class="space-y-2"><button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-reviewer>Entrar como avaliador <i data-lucide="scan-search" class="h-4 w-4"></i></button><button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-publisher>Entrar como publicador <i data-lucide="briefcase-business" class="h-4 w-4"></i></button></div></div><p class="mt-5 text-center text-xs leading-relaxed text-ink/60">Ao continuar, você concorda com as regras da comunidade Press Start.</p></div>
+        <div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8"><div class="mb-8 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Junte-se ao feed</p><h2 id="auth-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Sua voz<br>tem nota.</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-auth aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div><div class="mb-6 grid grid-cols-2 border-2 border-ink p-1 text-xs font-black uppercase tracking-[0.12em]"><button type="button" class="bg-ink px-3 py-3 text-paper">Entrar</button><button type="button" class="px-3 py-3">Criar conta</button></div>        
+        <form id="auth-form" class="space-y-4">
+            <label class="block text-xs font-black uppercase tracking-[0.1em]">Usuário
+                <input id="auth-email" name="username" type="text" required autocomplete="username" placeholder="seu usuário" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral">
+            </label>
+            <label class="block text-xs font-black uppercase tracking-[0.1em]">Senha
+                <input id="auth-password" name="password" type="password" required autocomplete="current-password" placeholder="••••••••" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral">
+            </label><p id="auth-message" class="hidden border-2 border-coral bg-white p-3 text-xs font-bold"></p>
+            <button type="submit" class="flex w-full items-center justify-center gap-2 border-2 border-ink bg-coral px-4 py-4 text-xs font-black uppercase tracking-[0.15em] text-ink shadow-[3px_3px_0_#101114]">Entrar 
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            </button>
+        </form>
+        <div class="mt-6 border-t-2 border-ink pt-5">
+            <p class="mb-3 text-[10px] font-black uppercase tracking-[0.14em] text-ink/60">Prévia de permissões</p>
+            <div class="space-y-2">
+                <button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-reviewer>Entrar como avaliador 
+                    <i data-lucide="scan-search" class="h-4 w-4"></i>
+                </button>
+                <button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-publisher>Entrar como publicador 
+                    <i data-lucide="briefcase-business" class="h-4 w-4"></i>
+                </button>
+            </div>
+        </div>
+        <p class="mt-5 text-center text-xs leading-relaxed text-ink/60">Ao continuar, você concorda com as regras da comunidade Press Start.</p>
+    </div>
     </div>
     <div id="registration-panel" class="fixed inset-0 z-[60] hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="registration-title">
         <div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
