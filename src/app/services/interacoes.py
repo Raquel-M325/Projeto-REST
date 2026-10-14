@@ -1,7 +1,7 @@
 import requests
 
 
-INTERACOES_URL = "http://localhost:8002"
+INTERACOES_URL = "http://localhost:8000"
 
 def listar_avaliacoes(token=None):
     headers = {}

@@ -1,6 +1,6 @@
 import requests
 
-GERENCIA_URL =  "http://localhost:8001"
+GERENCIA_URL =  "http://localhost:8000"
 
 def listar_publicacoes(token=None):
     headers = {}
