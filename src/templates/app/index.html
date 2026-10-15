@@ -85,7 +85,7 @@
                     <div id="feed-loading" class="border-2 border-ink bg-white p-6 text-sm font-black uppercase">Carregando publicações...</div>
                     <!-- Os cards são criados pelo endpoint /cliente/publicacoes/. -->
                     <div id="feed-empty" class="hidden border-2 border-dashed border-ink bg-white p-6 text-sm text-ink/70">Nenhuma publicação encontrada.</div>
-                    <!--
+                    
                     <article class="border-2 border-ink bg-white p-5 shadow-[4px_4px_0_#d9d9d4] sm:p-7">
                         <div class="mb-5 flex items-start justify-between gap-4"><div class="flex items-center gap-3"><div class="grid h-11 w-11 place-items-center bg-coral font-display text-lg">MS</div><div><h3 class="text-sm font-black uppercase">Marina S.</h3><p class="text-xs text-ink/50">Avaliadora · há 12 min</p></div></div><span class="border-2 border-ink bg-signal px-2 py-1 text-[10px] font-black uppercase tracking-[0.1em]">Positivo</span></div>
                         <div class="mb-4 flex items-center justify-between gap-3"><h2 class="font-display text-2xl uppercase tracking-[-0.04em]">Neon Revenant</h2><span class="font-display text-3xl text-coral">9.5</span></div>
@@ -104,7 +104,7 @@
                         <p class="max-w-2xl text-sm leading-relaxed text-ink/75">Pequeno, delicado e com uma vontade enorme de fazer você sorrir. Um ótimo respiro entre aventuras apocalípticas e mundos que querem salvar o universo.</p>
                         <div class="mt-6 flex items-center gap-5 border-t border-mist pt-4 text-xs font-bold text-ink/50"><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="heart" class="h-4 w-4"></i> 38</button><button class="flex items-center gap-1.5 hover:text-coral"><i data-lucide="message-circle" class="h-4 w-4"></i> 12 comentários</button><button class="ml-auto hover:text-ink" aria-label="Compartilhar crítica"><i data-lucide="share-2" class="h-4 w-4"></i></button></div>
                     </article>
-                    -->
+                   
                 </div>
                 <aside id="explorar" class="h-fit border-2 border-ink bg-ink p-5 text-paper lg:sticky lg:top-6">
                     <p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-signal">Para explorar</p><h2 class="mb-6 font-display text-3xl uppercase leading-none tracking-[-0.05em]">O que a<br>comunidade<br>está jogando</h2>
@@ -181,7 +181,47 @@
         <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
             <div class="mb-8 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Interação da comunidade</p><h2 id="reviewer-modal-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Avaliar jogo</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-reviewer aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div>
             <form id="reviewer-form" class="space-y-5">
-                <div data-reviewer-view="rate"><label class="block text-xs font-black uppercase tracking-[0.1em]">Escolha um jogo cadastrado<select name="publicacao" id="review-publication" required class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"><option value="">Carregando jogos...</option></select></label><p class="mt-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-ink/50"><i data-lucide="info" class="h-3.5 w-3.5"></i> Você só pode avaliar jogos publicados na plataforma.</p><div class="mt-6"><div class="mb-3 flex items-center justify-between gap-3"><p class="text-xs font-black uppercase tracking-[0.1em]">Sua nota</p><div class="flex items-center gap-2"><input id="review-score" name="nota" type="number" min="0" max="100" value="80" class="w-20 border-2 border-ink bg-white px-2 py-2 text-center font-display text-xl outline-none focus:border-coral" aria-label="Nota de 0 a 100"><span class="text-xs font-black uppercase text-ink/50">/ 100</span></div></div><input id="review-score-range" type="range" min="0" max="100" value="80" class="h-2 w-full cursor-pointer accent-coral" aria-label="Escolha uma nota de 0 a 100"><div class="mt-1 flex justify-between text-[10px] font-black text-ink/40"><span>0 · Não funcionou</span><span>100 · Obra-prima</span></div></div><div class="mt-6"><p class="mb-3 text-xs font-black uppercase tracking-[0.1em]">Sua recomendação</p><div class="grid gap-3 sm:grid-cols-2"><button type="button" class="flex items-center gap-3 border-2 border-ink bg-signal px-4 py-4 text-left hover:bg-ink hover:text-paper" data-recommendation="positive"><i data-lucide="thumbs-up" class="h-5 w-5"></i><span><strong class="block text-xs uppercase">Recomendo</strong><small class="text-[11px] normal-case opacity-60">Jogaria de novo</small></span></button><button type="button" class="flex items-center gap-3 border-2 border-ink bg-white px-4 py-4 text-left hover:bg-coral" data-recommendation="negative"><i data-lucide="thumbs-down" class="h-5 w-5"></i><span><strong class="block text-xs uppercase">Não recomendo</strong><small class="text-[11px] normal-case opacity-60">Não funcionou para mim</small></span></button></div></div><label class="mt-6 block text-xs font-black uppercase tracking-[0.1em]">Seu comentário <span class="font-normal normal-case text-ink/50">(opcional)</span><textarea name="comentario" rows="5" placeholder="Conte o que você achou do jogo..." class="mt-2 w-full resize-none border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></textarea></label></div>
+                <div data-reviewer-view="rate">
+                    <label class="block text-xs font-black uppercase tracking-[0.1em]">Escolha um jogo cadastrado
+                        <select name="publicacao" id="review-publication" required class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral">
+                            <option value="">Carregando jogos...</option>
+                        </select>
+                    </label>
+                    <p class="mt-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-ink/50">
+                        <i data-lucide="info" class="h-3.5 w-3.5"></i> Você só pode avaliar jogos publicados na plataforma.</p>
+                        <div class="mt-6">
+                            <div class="mb-3 flex items-center justify-between gap-3">
+                                <p class="text-xs font-black uppercase tracking-[0.1em]">Sua nota</p>
+                <div class="flex items-center gap-2"><input id="review-score" name="nota" type="number" min="0" max="100" value="80" class="w-20 border-2 border-ink bg-white px-2 py-2 text-center font-display text-xl outline-none focus:border-coral" aria-label="Nota de 0 a 100">
+                    <span class="text-xs font-black uppercase text-ink/50">/ 100</span>
+                </div>
+            </div>
+            <input id="review-score-range" type="range" min="0" max="100" value="80" class="h-2 w-full cursor-pointer accent-coral" aria-label="Escolha uma nota de 0 a 100">
+            <div class="mt-1 flex justify-between text-[10px] font-black text-ink/40">
+                <span>0 · Não funcionou</span>
+                <span>100 · Obra-prima</span>
+            </div>
+        </div>
+        <div class="mt-6">
+            <p class="mb-3 text-xs font-black uppercase tracking-[0.1em]">Sua recomendação</p>
+            <div class="grid gap-3 sm:grid-cols-2">
+                <button type="button" class="flex items-center gap-3 border-2 border-ink bg-signal px-4 py-4 text-left hover:bg-ink hover:text-paper" data-recommendation="positive">
+                    <i data-lucide="thumbs-up" class="h-5 w-5"></i>
+                    <span>
+                        <strong class="block text-xs uppercase">Recomendo</strong>
+                        <small class="text-[11px] normal-case opacity-60">Jogaria de novo</small>
+                    </span>
+                </button>
+                <button type="button" class="flex items-center gap-3 border-2 border-ink bg-white px-4 py-4 text-left hover:bg-coral" data-recommendation="negative">
+                    <i data-lucide="thumbs-down" class="h-5 w-5"></i>
+                    <span>
+                        <strong class="block text-xs uppercase">Não recomendo</strong>
+                        <small class="text-[11px] normal-case opacity-60">Não funcionou para mim</small>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <label class="mt-6 block text-xs font-black uppercase tracking-[0.1em]">Seu comentário <span class="font-normal normal-case text-ink/50">(opcional)</span><textarea name="comentario" rows="5" placeholder="Conte o que você achou do jogo..." class="mt-2 w-full resize-none border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></textarea></label></div>
                 <div data-reviewer-view="reviews" class="hidden"><p class="border-2 border-dashed border-ink bg-white p-5 text-sm text-ink/70">Suas avaliações aparecerão aqui depois que você publicar a primeira.</p></div>
                 <div class="flex flex-col-reverse justify-between gap-3 border-t-2 border-ink pt-5 sm:flex-row sm:items-center"><button type="button" class="text-xs font-black uppercase tracking-[0.1em] text-ink/60 hover:text-coral" data-close-reviewer>Cancelar</button><button type="submit" class="flex items-center justify-center gap-2 border-2 border-ink bg-coral px-5 py-3 text-xs font-black uppercase tracking-[0.15em] shadow-[3px_3px_0_#101114] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"><span id="reviewer-submit-label">Publicar avaliação</span><i data-lucide="arrow-right" class="h-4 w-4"></i></button></div>
             </form>
@@ -377,6 +417,7 @@
         const resultado = await enviarParaAPI(
             "/cliente/avaliacoes/",
             {
+            avaliador: Number(localStorage.getItem("id")),
             publicacao: Number(publicacao),
             nota: Number(nota),
             comentario: comentario
