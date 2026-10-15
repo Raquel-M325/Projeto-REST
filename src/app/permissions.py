@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-
 def tipo_usuario(request):
     token = request.auth
 
@@ -8,7 +7,6 @@ def tipo_usuario(request):
         return None
 
     return token.get("tipo")
-
 
 class IsAvaliador(BasePermission):
     def has_permission(self, request, view):
@@ -27,6 +25,11 @@ class IsPublicador(BasePermission):
 
 
 class LeituraAutenticadaEscritaAvaliador(BasePermission):
+    """
+    Leitura: avaliadores e publicadores.
+    Escrita: somente avaliadores.
+    """
+
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
@@ -40,6 +43,11 @@ class LeituraAutenticadaEscritaAvaliador(BasePermission):
 
 
 class LeituraAutenticadaEscritaPublicador(BasePermission):
+    """
+    Leitura: avaliadores e publicadores.
+    Escrita: somente publicadores.
+    """
+
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
@@ -50,3 +58,23 @@ class LeituraAutenticadaEscritaPublicador(BasePermission):
             return tipo in ("avaliador", "publicador")
 
         return tipo == "publicador"
+
+# class CriarAvaliacaoGatewayView(APIView):
+
+#     permission_classes = [IsAvaliador]
+
+#     def post(self, request):
+
+#         # encaminhar para Interações
+#         if (permission_classes == "publicador"):
+
+#         ...
+
+# class CriarJogoGatewayView(APIView):
+
+#     permission_classes = [IsPublicador]
+
+#     def post(self, request):
+
+#         # encaminhar para Gerência
+#         ...

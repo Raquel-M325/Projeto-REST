@@ -32,20 +32,7 @@
     <section id="publisher-bar" class="hidden border-b-2 border-ink bg-white" aria-label="Ações do publicador">
         <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-8">
             <div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center bg-coral text-ink"><i data-lucide="briefcase-business" class="h-5 w-5"></i></span><div><p class="text-[10px] font-black uppercase tracking-[0.18em] text-coral">Modo publicador</p><p class="text-sm font-black uppercase" id="publisher-name">Sua conta <span class="font-normal normal-case text-ink/50">· conta verificada</span></p></div></div>
-            <div class="flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-[0.12em]">
-                <button type="button" class="flex items-center gap-2 border-2 border-ink bg-signal px-3 py-2 hover:bg-ink hover:text-paper" data-publisher-modal="publish">
-                    <i data-lucide="plus" class="h-4 w-4"></i> Novo jogo
-                </button>
-                <button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-publisher-modal="edit">
-                    <i data-lucide="pencil" class="h-4 w-4"></i> Editar publicação
-                </button>
-                <button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-publisher-modal="replies">
-                    <i data-lucide="message-square-reply" class="h-4 w-4"></i> Responder críticas
-                </button>
-                <!-- <button type="button" class="border-2 border-ink px-3 py-2 text-coral hover:bg-coral hover:text-ink" data-exit-publisher aria-label="Sair do modo publicador">
-                    <i data-lucide="log-out" class="h-4 w-4"></i>
-                </button> -->
-            </div>
+            <div class="flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-[0.12em]"><button type="button" class="flex items-center gap-2 border-2 border-ink bg-signal px-3 py-2 hover:bg-ink hover:text-paper" data-publisher-modal="publish"><i data-lucide="plus" class="h-4 w-4"></i> Novo jogo</button><button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-publisher-modal="edit"><i data-lucide="pencil" class="h-4 w-4"></i> Editar publicação</button><button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-publisher-modal="replies"><i data-lucide="message-square-reply" class="h-4 w-4"></i> Responder críticas</button><button type="button" class="border-2 border-ink px-3 py-2 text-coral hover:bg-coral hover:text-ink" data-exit-publisher aria-label="Sair do modo publicador"><i data-lucide="log-out" class="h-4 w-4"></i></button></div>
         </div>
     </section>
     <section id="reviewer-bar" class="hidden border-b-2 border-ink bg-white" aria-label="Ações do avaliador">
@@ -58,9 +45,9 @@
                 <button type="button" class="flex items-center gap-2 border-2 border-ink px-3 py-2 hover:bg-signal" data-reviewer-modal="reviews">
                     <i data-lucide="book-open-check" class="h-4 w-4"></i> Minhas avaliações
                 </button>
-                <!-- <button type="button" class="border-2 border-ink px-3 py-2 text-coral hover:bg-coral hover:text-ink" data-exit-reviewer aria-label="Sair do modo avaliador">
+                <button type="button" class="border-2 border-ink px-3 py-2 text-coral hover:bg-coral hover:text-ink" data-exit-reviewer aria-label="Sair do modo avaliador">
                     <i data-lucide="log-out" class="h-4 w-4"></i>
-                </button> -->
+                </button>
             </div>
         </div>
     </section>
@@ -138,20 +125,7 @@
         </div>
     </footer>
     <div id="auth-panel" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-        <div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
-            <div class="mb-8 flex items-start justify-between gap-4">
-                <div>
-                    <p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Junte-se ao feed</p>
-                    <h2 id="auth-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Sua voz<br>tem nota.</h2>
-                </div>
-                <button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-auth aria-label="Fechar janela">
-                    <i data-lucide="x" class="h-5 w-5"></i>
-                </button>
-            </div>
-        <!-- <div class="mb-6 grid grid-cols-2 border-2 border-ink p-1 text-xs font-black uppercase tracking-[0.12em]">
-            <button type="button" class="bg-ink px-3 py-3 text-paper">Entrar</button>
-            <button type="button" class="px-3 py-3">Criar conta</button>
-        </div>         -->
+        <div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8"><div class="mb-8 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Junte-se ao feed</p><h2 id="auth-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Sua voz<br>tem nota.</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-auth aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div><div class="mb-6 grid grid-cols-2 border-2 border-ink p-1 text-xs font-black uppercase tracking-[0.12em]"><button type="button" class="bg-ink px-3 py-3 text-paper">Entrar</button><button type="button" class="px-3 py-3">Criar conta</button></div>        
         <form id="auth-form" class="space-y-4">
             <label class="block text-xs font-black uppercase tracking-[0.1em]">Usuário
                 <input id="auth-email" name="username" type="text" required autocomplete="username" placeholder="seu usuário" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral">
@@ -164,14 +138,14 @@
             </button>
         </form>
         <div class="mt-6 border-t-2 border-ink pt-5">
-            <!-- <p class="mb-3 text-[10px] font-black uppercase tracking-[0.14em] text-ink/60">Prévia de permissões</p> -->
+            <p class="mb-3 text-[10px] font-black uppercase tracking-[0.14em] text-ink/60">Prévia de permissões</p>
             <div class="space-y-2">
-                <!-- <button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-reviewer>Entrar como avaliador 
+                <button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-reviewer>Entrar como avaliador 
                     <i data-lucide="scan-search" class="h-4 w-4"></i>
                 </button>
                 <button type="button" class="flex w-full items-center justify-between border-2 border-ink px-3 py-3 text-left text-xs font-black uppercase hover:bg-signal" data-enter-publisher>Entrar como publicador 
                     <i data-lucide="briefcase-business" class="h-4 w-4"></i>
-                </button> -->
+                </button>
             </div>
         </div>
         <p class="mt-5 text-center text-xs leading-relaxed text-ink/60">Ao continuar, você concorda com as regras da comunidade Press Start.</p>
@@ -179,13 +153,7 @@
     </div>
     <div id="registration-panel" class="fixed inset-0 z-[60] hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="registration-title">
         <div class="w-full max-w-md border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
-            <div class="mb-6 flex items-start justify-between gap-4">
-                <div>
-                    <p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Criar conta</p>
-                    <h2 id="registration-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Escolha seu<br>perfil.</h2>
-                </div>
-                <button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-registration aria-label="Fechar janela">×</button>
-            </div>
+            <div class="mb-6 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Criar conta</p><h2 id="registration-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Escolha seu<br>perfil.</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-registration aria-label="Fechar janela">×</button></div>
             <form id="registration-form" class="space-y-4">
                 <label class="block text-xs font-black uppercase tracking-[0.1em]">Tipo de conta<select name="tipo" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"><option value="avaliador">Avaliador</option><option value="publicador">Publicador</option></select></label>
                 <label class="block text-xs font-black uppercase tracking-[0.1em]">Nome de usuário<input name="username" required autocomplete="username" class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></label>
@@ -211,15 +179,7 @@
     </div>
     <div id="reviewer-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/80 p-4" role="dialog" aria-modal="true" aria-labelledby="reviewer-modal-title">
         <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto border-2 border-ink bg-paper p-6 shadow-hard sm:p-8">
-            <div class="mb-8 flex items-start justify-between gap-4">
-                <div>
-                    <p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Interação da comunidade</p>
-                    <h2 id="reviewer-modal-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Avaliar jogo</h2>
-                </div>
-                <button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-reviewer aria-label="Fechar janela">
-                    <i data-lucide="x" class="h-5 w-5"></i>
-                </button>
-            </div>
+            <div class="mb-8 flex items-start justify-between gap-4"><div><p class="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-coral">Interação da comunidade</p><h2 id="reviewer-modal-title" class="font-display text-3xl uppercase leading-none tracking-[-0.05em]">Avaliar jogo</h2></div><button type="button" class="grid h-9 w-9 place-items-center border-2 border-ink hover:bg-signal" data-close-reviewer aria-label="Fechar janela"><i data-lucide="x" class="h-5 w-5"></i></button></div>
             <form id="reviewer-form" class="space-y-5">
                 <div data-reviewer-view="rate"><label class="block text-xs font-black uppercase tracking-[0.1em]">Escolha um jogo cadastrado<select name="publicacao" id="review-publication" required class="mt-2 w-full border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"><option value="">Carregando jogos...</option></select></label><p class="mt-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-ink/50"><i data-lucide="info" class="h-3.5 w-3.5"></i> Você só pode avaliar jogos publicados na plataforma.</p><div class="mt-6"><div class="mb-3 flex items-center justify-between gap-3"><p class="text-xs font-black uppercase tracking-[0.1em]">Sua nota</p><div class="flex items-center gap-2"><input id="review-score" name="nota" type="number" min="0" max="100" value="80" class="w-20 border-2 border-ink bg-white px-2 py-2 text-center font-display text-xl outline-none focus:border-coral" aria-label="Nota de 0 a 100"><span class="text-xs font-black uppercase text-ink/50">/ 100</span></div></div><input id="review-score-range" type="range" min="0" max="100" value="80" class="h-2 w-full cursor-pointer accent-coral" aria-label="Escolha uma nota de 0 a 100"><div class="mt-1 flex justify-between text-[10px] font-black text-ink/40"><span>0 · Não funcionou</span><span>100 · Obra-prima</span></div></div><div class="mt-6"><p class="mb-3 text-xs font-black uppercase tracking-[0.1em]">Sua recomendação</p><div class="grid gap-3 sm:grid-cols-2"><button type="button" class="flex items-center gap-3 border-2 border-ink bg-signal px-4 py-4 text-left hover:bg-ink hover:text-paper" data-recommendation="positive"><i data-lucide="thumbs-up" class="h-5 w-5"></i><span><strong class="block text-xs uppercase">Recomendo</strong><small class="text-[11px] normal-case opacity-60">Jogaria de novo</small></span></button><button type="button" class="flex items-center gap-3 border-2 border-ink bg-white px-4 py-4 text-left hover:bg-coral" data-recommendation="negative"><i data-lucide="thumbs-down" class="h-5 w-5"></i><span><strong class="block text-xs uppercase">Não recomendo</strong><small class="text-[11px] normal-case opacity-60">Não funcionou para mim</small></span></button></div></div><label class="mt-6 block text-xs font-black uppercase tracking-[0.1em]">Seu comentário <span class="font-normal normal-case text-ink/50">(opcional)</span><textarea name="comentario" rows="5" placeholder="Conte o que você achou do jogo..." class="mt-2 w-full resize-none border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></textarea></label></div>
                 <div data-reviewer-view="reviews" class="hidden"><p class="border-2 border-dashed border-ink bg-white p-5 text-sm text-ink/70">Suas avaliações aparecerão aqui depois que você publicar a primeira.</p></div>
@@ -230,8 +190,7 @@
 
 
     <script>
-    //const GATEWAY_URL = 'http://127.0.0.1:8000';
-    const API = "http://127.0.0.1:8000"; // Mesmo servidor Django
+    const API = ""; // Mesmo servidor Django
     let token = localStorage.getItem("access");
 
     // LOGIN
@@ -715,10 +674,10 @@
         }));
         document.querySelector('[data-close-auth]').addEventListener('click', () => authPanel.classList.replace('flex', 'hidden'));
         authPanel.addEventListener('click', (event) => { if (event.target === authPanel) authPanel.classList.replace('flex', 'hidden'); });
-        //document.querySelector('[data-enter-publisher]').addEventListener('click', () => { authPanel.classList.replace('flex', 'hidden'); publisherBar.classList.remove('hidden'); publisherBar.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-        //document.querySelector('[data-enter-reviewer]').addEventListener('click', () => { authPanel.classList.replace('flex', 'hidden'); reviewerBar.classList.remove('hidden'); reviewerBar.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-        //document.querySelector('[data-exit-publisher]').addEventListener('click', () => publisherBar.classList.add('hidden'));
-        //document.querySelector('[data-exit-reviewer]').addEventListener('click', () => reviewerBar.classList.add('hidden'));
+        document.querySelector('[data-enter-publisher]').addEventListener('click', () => { authPanel.classList.replace('flex', 'hidden'); publisherBar.classList.remove('hidden'); publisherBar.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        document.querySelector('[data-enter-reviewer]').addEventListener('click', () => { authPanel.classList.replace('flex', 'hidden'); reviewerBar.classList.remove('hidden'); reviewerBar.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        document.querySelector('[data-exit-publisher]').addEventListener('click', () => publisherBar.classList.add('hidden'));
+        document.querySelector('[data-exit-reviewer]').addEventListener('click', () => reviewerBar.classList.add('hidden'));
         document.querySelectorAll('[data-publisher-modal]').forEach((button) => button.addEventListener('click', () => {
             const mode = button.dataset.publisherModal;
             if (mode === 'replies') carregarAvaliacoesParaResponder();

@@ -1,11 +1,6 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.exceptions import AuthenticationFailed
 from django.contrib.auth import get_user_model
-from corsheaders.defaults import default_headers
-
-CORS_ALLOW_HEADERS = [
-    *default_headers,
-]
 
 
 class TipoTokenSerializer(TokenObtainPairSerializer):

@@ -81,39 +81,39 @@ class ClienteViewSet(viewsets.ViewSet):
 
     def listar_publicadores(self, request):
         return self._requisicao_gateway(
-            request, "GET", "/publicador/"
+            request, "GET", "/api/publicador/"
         )
 
     def criar_publicador(self, request):
         return self._requisicao_gateway(
-            request, "POST", "/publicador/"
+            request, "POST", "/api/publicador/"
         )
 
     def detalhar_publicador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "GET", f"/publicador/{pk}/"
+            request, "GET", f"/api/publicador/{pk}/"
         )
 
     def editar_publicador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PUT", f"/publicador/{pk}/"
+            request, "PUT", f"/api/publicador/{pk}/"
         )
 
     def atualizar_parcial_publicador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PATCH", f"/publicador/{pk}/"
+            request, "PATCH", f"/api/publicador/{pk}/"
         )
 
     def excluir_publicador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "DELETE", f"/publicador/{pk}/"
+            request, "DELETE", f"/api/publicador/{pk}/"
         )
 
     # PUBLICAÇÕES
 
     def listar_publicacoes(self, request):
         return self._requisicao_gateway(
-            request, "GET", "/publicacao/"
+            request, "GET", "/api/publicacao/"
         )
 
     @swagger_auto_schema(
@@ -140,90 +140,90 @@ class ClienteViewSet(viewsets.ViewSet):
     )
     def criar_publicacao(self, request):
         return self._requisicao_gateway(
-            request, "POST", "/publicacao/"
+            request, "POST", "/api/publicacao/"
         )
 
     
     def detalhar_publicacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "GET", f"/publicacao/{pk}/"
+            request, "GET", f"/api/publicacao/{pk}/"
         )
 
     def editar_publicacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PUT", f"/publicacao/{pk}/"
+            request, "PUT", f"/api/publicacao/{pk}/"
         )
 
     def atualizar_parcial_publicacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PATCH", f"/publicacao/{pk}/"
+            request, "PATCH", f"/api/publicacao/{pk}/"
         )
 
     def excluir_publicacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "DELETE", f"/publicacao/{pk}/"
+            request, "DELETE", f"/api/publicacao/{pk}/"
         )
 
     # AVALIADORES
 
     def listar_avaliadores(self, request):
         return self._requisicao_gateway(
-            request, "GET", "/avaliador/"
+            request, "GET", "/api/avaliador/"
         )
 
     def criar_avaliador(self, request):
         return self._requisicao_gateway(
-            request, "POST", "/avaliador/"
+            request, "POST", "/api/avaliador/"
         )
 
     def detalhar_avaliador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "GET", f"/avaliador/{pk}/"
+            request, "GET", f"/api/avaliador/{pk}/"
         )
 
     def editar_avaliador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PUT", f"/avaliador/{pk}/"
+            request, "PUT", f"/api/avaliador/{pk}/"
         )
 
     def atualizar_parcial_avaliador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PATCH", f"/avaliador/{pk}/"
+            request, "PATCH", f"/api/avaliador/{pk}/"
         )
 
     def excluir_avaliador(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "DELETE", f"/avaliador/{pk}/"
+            request, "DELETE", f"/api/avaliador/{pk}/"
         )
 
     # AVALIAÇÕES
 
     def listar_avaliacoes(self, request):
         return self._requisicao_gateway(
-            request, "GET", "/avaliacao/"
+            request, "GET", "/api/avaliacao/"
         )
 
     def criar_avaliacao(self, request):
         return self._requisicao_gateway(
-            request, "POST", "/avaliacao/"
+            request, "POST", "/api/avaliacao/"
         )
 
     def detalhar_avaliacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "GET", f"/avaliacao/{pk}/"
+            request, "GET", f"/api/avaliacao/{pk}/"
         )
 
     def editar_avaliacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PUT", f"/avaliacao/{pk}/"
+            request, "PUT", f"/api/avaliacao/{pk}/"
         )
 
     def atualizar_parcial_avaliacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "PATCH", f"/avaliacao/{pk}/"
+            request, "PATCH", f"/api/avaliacao/{pk}/"
         )
 
     def excluir_avaliacao(self, request, pk=None):
         return self._requisicao_gateway(
-            request, "DELETE", f"/avaliacao/{pk}/"
+            request, "DELETE", f"/api/avaliacao/{pk}/"
         )
