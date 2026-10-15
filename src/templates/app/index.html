@@ -398,40 +398,71 @@
     const reviewerForm = document.querySelector("#reviewer-form");
 
     if (reviewerForm) {
-    reviewerForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+        reviewerForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
 
-        const publicacao = reviewerForm.querySelector(
-        'select[name="publicacao"]'
-        ).value;
+            const publicacao = reviewerForm.querySelector(
+                'select[name="publicacao"]'
+            ).value;
 
-        const nota = reviewerForm.querySelector(
-        'input[name="nota"]'
-        ).value;
+            const nota = reviewerForm.querySelector(
+                'input[name="nota"]'
+            ).value;
 
-        const comentario = reviewerForm.querySelector(
-        'textarea[name="comentario"]'
-        ).value;
+            const comentario = reviewerForm.querySelector(
+                'textarea[name="comentario"]'
+            ).value;
 
-        try {
-        const resultado = await enviarParaAPI(
-            "/cliente/avaliacoes/",
-            {
-            avaliador: Number(localStorage.getItem("id")),
-            publicacao: Number(publicacao),
-            nota: Number(nota),
-            comentario: comentario
+            try {
+                // Busca o ID real do avaliador logado
+                const respostaAvaliadores = await fetch(
+                    "/cliente/avaliadores/",
+                    {
+                        headers: cabecalhosComAutorizacao()
+                    }
+                );
+
+                const dadosAvaliadores = await respostaAvaliadores.json();
+
+                if (!respostaAvaliadores.ok) {
+                    throw new Error(
+                        "Não foi possível identificar o avaliador logado."
+                    );
+                }
+
+                const avaliadores = listaDaResposta(dadosAvaliadores);
+                const nomeAtual = localStorage.getItem("nome");
+
+                const avaliadorAtual = avaliadores.find(
+                    (avaliador) => avaliador.nome === nomeAtual
+                );
+
+                if (!avaliadorAtual) {
+                    throw new Error(
+                        "Avaliador não encontrado. Entre novamente na sua conta."
+                    );
+                }
+
+                const resultado = await enviarParaAPI(
+                    "/cliente/avaliacoes/",
+                    {
+                        avaliador: Number(avaliadorAtual.id),
+                        publicacao: Number(publicacao),
+                        nota: Number(nota),
+                        comentario: comentario
+                    }
+                );
+
+                alert("Avaliação enviada com sucesso!");
+                console.log("Avaliação criada:", resultado);
+                reviewerForm.reset();
+
+            } catch (erro) {
+                alert("Erro ao avaliar: " + erro.message);
             }
-        );
-
-        alert("Avaliação enviada com sucesso!");
-        console.log("Avaliação criada:", resultado);
-        reviewerForm.reset();
-        } catch (erro) {
-        alert("Erro ao avaliar: " + erro.message);
-        }
-    });
+        });
     }
+
     </script>
 
     <script>
