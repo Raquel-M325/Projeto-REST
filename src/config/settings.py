@@ -167,8 +167,8 @@ MAILERS = {
 
 import socket
 
-# hostname = socket.gethostname()
-# ip_local = socket.gethostbyname(hostname)
+hostname = socket.gethostname()
+ip_local = socket.gethostbyname(hostname)
 def obter_ip_local():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
