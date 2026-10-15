@@ -222,7 +222,30 @@
             </div>
         </div>
         <label class="mt-6 block text-xs font-black uppercase tracking-[0.1em]">Seu comentário <span class="font-normal normal-case text-ink/50">(opcional)</span><textarea name="comentario" rows="5" placeholder="Conte o que você achou do jogo..." class="mt-2 w-full resize-none border-2 border-ink bg-white px-4 py-3 text-sm outline-none focus:border-coral"></textarea></label></div>
-                <div data-reviewer-view="reviews" class="hidden"><p class="border-2 border-dashed border-ink bg-white p-5 text-sm text-ink/70">Suas avaliações aparecerão aqui depois que você publicar a primeira.</p></div>
+                
+            <div data-reviewer-view="reviews" class="hidden">
+                <div class="mb-5 flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.1em]">
+                            Seu histórico
+                        </p>
+                        <p class="mt-1 text-sm text-ink/60">
+                            Jogos que você avaliou na comunidade.
+                        </p>
+                    </div>
+                    <span id="reviews-count"
+                        class="border-2 border-ink bg-signal px-3 py-2 text-xs font-black">
+                        0 avaliações
+                    </span>
+                </div>
+
+                <div id="reviews-list" class="space-y-4">
+                    <p class="border-2 border-dashed border-ink bg-white p-5 text-sm text-ink/70">
+                        Carregando suas avaliações...
+                    </p>
+                </div>
+            </div>
+
                 <div class="flex flex-col-reverse justify-between gap-3 border-t-2 border-ink pt-5 sm:flex-row sm:items-center"><button type="button" class="text-xs font-black uppercase tracking-[0.1em] text-ink/60 hover:text-coral" data-close-reviewer>Cancelar</button><button type="submit" class="flex items-center justify-center gap-2 border-2 border-ink bg-coral px-5 py-3 text-xs font-black uppercase tracking-[0.15em] shadow-[3px_3px_0_#101114] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"><span id="reviewer-submit-label">Publicar avaliação</span><i data-lucide="arrow-right" class="h-4 w-4"></i></button></div>
             </form>
         </div>
@@ -457,6 +480,21 @@
                 console.log("Avaliação criada:", resultado);
                 reviewerForm.reset();
 
+                // Restaura a nota padrão.
+                document.querySelector('#review-score').value = 80;
+                document.querySelector('#review-score-range').value = 80;
+
+                // Atualiza a lista se o usuário estiver na seção de avaliações.
+                const visualizacaoAvaliacoes =
+                    document.querySelector('[data-reviewer-view="reviews"]');
+
+                if (visualizacaoAvaliacoes &&
+                    !visualizacaoAvaliacoes.classList.contains('hidden')) {
+                    await carregarMinhasAvaliacoes();
+                }
+
+                reviewerModal.classList.replace('flex', 'hidden');
+
             } catch (erro) {
                 alert("Erro ao avaliar: " + erro.message);
             }
@@ -604,6 +642,243 @@
         function listaDaResposta(dados) {
             return Array.isArray(dados) ? dados : dados?.results;
         }
+
+        
+        async function carregarMinhasAvaliacoes() {
+            const lista = document.querySelector('#reviews-list');
+            const contador = document.querySelector('#reviews-count');
+
+            if (!lista) return;
+
+            function mostrarMensagem(mensagem) {
+                lista.replaceChildren();
+
+                const aviso = document.createElement('p');
+                aviso.className =
+                    'border-2 border-dashed border-ink bg-white p-5 text-sm text-ink/70';
+                aviso.textContent = mensagem;
+
+                lista.appendChild(aviso);
+                if (contador) contador.textContent = '0 avaliações';
+            }
+
+            const access = localStorage.getItem('access');
+            const nomeAtual = localStorage.getItem('nome');
+
+            if (!access || !nomeAtual) {
+                mostrarMensagem('Entre na sua conta para consultar suas avaliações.');
+                return;
+            }
+
+            lista.replaceChildren();
+
+            const carregando = document.createElement('p');
+            carregando.className =
+                'border-2 border-dashed border-ink bg-white p-5 text-sm text-ink/70';
+            carregando.textContent = 'Carregando suas avaliações...';
+            lista.appendChild(carregando);
+
+            try {
+                const [avaliacoesResposta, avaliadoresResposta, publicacoesResposta] =
+                    await Promise.all([
+                        fetch('/cliente/avaliacoes/', {
+                            headers: cabecalhosComAutorizacao()
+                        }),
+                        fetch('/cliente/avaliadores/', {
+                            headers: cabecalhosComAutorizacao()
+                        }),
+                        fetch('/cliente/publicacoes/', {
+                            headers: cabecalhosComAutorizacao()
+                        })
+                    ]);
+
+                const [avaliacoesDados, avaliadoresDados, publicacoesDados] =
+                    await Promise.all([
+                        avaliacoesResposta.json(),
+                        avaliadoresResposta.json(),
+                        publicacoesResposta.json()
+                    ]);
+
+                if (
+                    !avaliacoesResposta.ok ||
+                    !avaliadoresResposta.ok ||
+                    !publicacoesResposta.ok
+                ) {
+                    throw new Error(
+                        'Não foi possível consultar os dados. Verifique sua sessão.'
+                    );
+                }
+
+                const avaliacoes = listaDaResposta(avaliacoesDados);
+                const avaliadores = listaDaResposta(avaliadoresDados);
+                const publicacoes = listaDaResposta(publicacoesDados);
+
+                if (
+                    !Array.isArray(avaliacoes) ||
+                    !Array.isArray(avaliadores) ||
+                    !Array.isArray(publicacoes)
+                ) {
+                    throw new Error('A API retornou dados em um formato inesperado.');
+                }
+
+                // Localiza o perfil correspondente à conta autenticada.
+                const avaliadorAtual = avaliadores.find(
+                    (avaliador) => avaliador.nome === nomeAtual
+                );
+
+                if (!avaliadorAtual) {
+                    throw new Error(
+                        'Não foi possível identificar seu perfil de avaliador. Entre novamente.'
+                    );
+                }
+
+                const idAvaliador = Number(avaliadorAtual.id);
+
+                // Aceita relações retornadas como ID ou como objeto.
+                function idRelacionado(valor) {
+                    if (valor && typeof valor === 'object') {
+                        return Number(valor.id);
+                    }
+
+                    return Number(valor);
+                }
+
+                const minhasAvaliacoes = avaliacoes.filter(
+                    (avaliacao) =>
+                        idRelacionado(avaliacao.avaliador) === idAvaliador
+                );
+
+                const jogosPorId = new Map(
+                    publicacoes.map((publicacao) => [
+                        Number(publicacao.id),
+                        publicacao
+                    ])
+                );
+
+                // Ordena da mais recente para a mais antiga, quando há data.
+                minhasAvaliacoes.sort((a, b) => {
+                    const dataA = new Date(
+                        a.data_criacao || a.data || a.created_at || 0
+                    ).getTime();
+
+                    const dataB = new Date(
+                        b.data_criacao || b.data || b.created_at || 0
+                    ).getTime();
+
+                    return dataB - dataA;
+                });
+
+                lista.replaceChildren();
+
+                if (contador) {
+                    contador.textContent =
+                        `${minhasAvaliacoes.length} ${
+                            minhasAvaliacoes.length === 1
+                                ? 'avaliação'
+                                : 'avaliações'
+                        }`;
+                }
+
+                if (minhasAvaliacoes.length === 0) {
+                    mostrarMensagem(
+                        'Você ainda não publicou avaliações. Escolha um jogo e compartilhe sua opinião!'
+                    );
+                    return;
+                }
+
+                for (const avaliacao of minhasAvaliacoes) {
+                    const card = document.createElement('article');
+                    card.className =
+                        'border-2 border-ink bg-white p-5 shadow-[4px_4px_0_#d9d9d4]';
+
+                    const idPublicacao = idRelacionado(avaliacao.publicacao);
+                    const jogo = jogosPorId.get(idPublicacao);
+
+                    const cabecalho = document.createElement('div');
+                    cabecalho.className =
+                        'mb-4 flex flex-wrap items-start justify-between gap-3';
+
+                    const informacoes = document.createElement('div');
+
+                    const titulo = document.createElement('h3');
+                    titulo.className =
+                        'font-display text-xl uppercase tracking-[-0.04em]';
+                    titulo.textContent = jogo?.titulo || 'Jogo não encontrado';
+
+                    const data = document.createElement('p');
+                    data.className = 'mt-1 text-xs text-ink/50';
+
+                    const dataOriginal =
+                        avaliacao.data_criacao ||
+                        avaliacao.data ||
+                        avaliacao.created_at;
+
+                    if (dataOriginal) {
+                        const dataFormatada = new Date(dataOriginal);
+
+                        data.textContent = !Number.isNaN(dataFormatada.getTime())
+                            ? `Avaliado em ${dataFormatada.toLocaleDateString('pt-BR')}`
+                            : '';
+                    } else {
+                        data.textContent = '';
+                    }
+
+                    informacoes.append(titulo, data);
+
+                    const nota = document.createElement('span');
+                    nota.className =
+                        'border-2 border-ink bg-signal px-3 py-2 font-display text-xl';
+                    nota.textContent = `${avaliacao.nota ?? '—'}`;
+
+                    cabecalho.append(informacoes, nota);
+                    card.appendChild(cabecalho);
+
+                    // Usa o campo de recomendação se o serializer o fornecer.
+                    // Caso contrário, usa a nota como indicação visual.
+                    const recomendacaoInformada =
+                        avaliacao.recomendacao ??
+                        avaliacao.tipo_recomendacao ??
+                        avaliacao.sentimento;
+
+                    let positiva;
+
+                    if (typeof recomendacaoInformada === 'boolean') {
+                        positiva = recomendacaoInformada;
+                    } else if (typeof recomendacaoInformada === 'string') {
+                        positiva = [
+                            'positiva', 'positivo', 'positive', 'recomendo'
+                        ].includes(recomendacaoInformada.toLowerCase());
+                    } else {
+                        positiva = Number(avaliacao.nota) >= 50;
+                    }
+
+                    const etiqueta = document.createElement('span');
+                    etiqueta.className = positiva
+                        ? 'inline-block border-2 border-ink bg-signal px-2 py-1 text-[10px] font-black uppercase'
+                        : 'inline-block border-2 border-ink bg-coral px-2 py-1 text-[10px] font-black uppercase';
+                    etiqueta.textContent = positiva
+                        ? 'Positivo · Recomendo'
+                        : 'Negativo · Não recomendo';
+
+                    card.appendChild(etiqueta);
+
+                    const comentario = document.createElement('p');
+                    comentario.className =
+                        'mt-4 whitespace-pre-wrap text-sm leading-relaxed text-ink/75';
+                    comentario.textContent =
+                        avaliacao.comentario?.trim() || 'Você não adicionou um comentário.';
+
+                    card.appendChild(comentario);
+                    lista.appendChild(card);
+                }
+            } catch (erro) {
+                console.error('Erro ao carregar minhas avaliações:', erro);
+                mostrarMensagem(
+                    erro.message || 'Não foi possível carregar suas avaliações.'
+                );
+            }
+        }
+
 
         async function carregarJogosParaAvaliar() {
             const seletor = document.querySelector('#review-publication');
@@ -764,6 +1039,7 @@
         document.querySelectorAll('[data-reviewer-modal]').forEach((button) => button.addEventListener('click', () => {
             const mode = button.dataset.reviewerModal;
             if (mode === 'rate') carregarJogosParaAvaliar();
+            if (mode === 'reviews') { carregarMinhasAvaliacoes();}
             document.querySelector('#reviewer-modal-title').textContent = mode === 'reviews' ? 'Minhas avaliações' : 'Avaliar jogo';
             document.querySelector('#reviewer-submit-label').textContent = mode === 'reviews' ? 'Fechar' : 'Publicar avaliação';
             document.querySelectorAll('[data-reviewer-view]').forEach((view) => view.classList.toggle('hidden', view.dataset.reviewerView !== mode));
@@ -776,7 +1052,7 @@
         const reviewScoreRange = document.querySelector('#review-score-range');
         reviewScore.addEventListener('input', () => { reviewScore.value = Math.min(100, Math.max(0, reviewScore.value)); reviewScoreRange.value = reviewScore.value; });
         reviewScoreRange.addEventListener('input', () => { reviewScore.value = reviewScoreRange.value; });
-        document.querySelector('#reviewer-form').addEventListener('submit', (event) => { event.preventDefault(); reviewerModal.classList.replace('flex', 'hidden'); });
+        // document.querySelector('#reviewer-form').addEventListener('submit', (event) => { event.preventDefault(); reviewerModal.classList.replace('flex', 'hidden'); });
         document.querySelector('[data-close-registration]').addEventListener('click', () => registrationPanel.classList.replace('flex', 'hidden'));
         registrationPanel.addEventListener('click', (event) => { if (event.target === registrationPanel) registrationPanel.classList.replace('flex', 'hidden'); });
         registrationForm.addEventListener('submit', async (event) => {
