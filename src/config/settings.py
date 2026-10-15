@@ -45,20 +45,20 @@ INSTALLED_APPS = [
     'gerencia',
 ]
 
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Bearer': {
-        'type': 'apiKey',
-        'name': 'Authorization',
-        'in': 'header',
-        'description': 'JWT Authorization. Use o formato: Bearer <seu_token>'
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Informe: Bearer <seu_access_token>',
         }
     },
-
-    "SECURITY_REQUIREMENTS": [
-        {"Bearer": []}
+    'SECURITY_REQUIREMENTS': [
+        {'Bearer': []}
     ],
-    "USE_SESSION_AUTH": False,
+    'USE_SESSION_AUTH': False,
 }
 
 from datetime import timedelta
@@ -167,8 +167,8 @@ MAILERS = {
 
 import socket
 
-hostname = socket.gethostname()
-ip_local = socket.gethostbyname(hostname)
+# hostname = socket.gethostname()
+# ip_local = socket.gethostbyname(hostname)
 def obter_ip_local():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 

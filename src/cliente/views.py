@@ -60,6 +60,7 @@ class CadastroPublicadorView(generics.CreateAPIView):
 
 
 class ClienteViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
 
     def _requisicao_gateway(self, request, metodo, endpoint):
         token = request.headers.get("Authorization")
