@@ -30,16 +30,17 @@ router.register(r'avaliacao', AvaliacaoViewSet)
 router.register(r'publicador', PublicadorViewSet, basename='publicador')
 router.register(r'publicacao', PublicacaoViewSet, basename='publicacao')
 schema_view = get_schema_view(
-openapi.Info(
-title="API Sistema de Criticas de Jogos",
-default_version='v1',
-description="Documentação da API de Sistema de Criticas de Jogos",
-contact=openapi.Contact(email="contato@exemplo.com"),
-license=openapi.License(name="MIT"),
+    openapi.Info(
+    title="API Sistema de Criticas de Jogos",
+    default_version='v1',
+    description="Documentação da API de Sistema de Criticas de Jogos",
+    contact=openapi.Contact(email="contato@exemplo.com"),
+    license=openapi.License(name="MIT"),
 
-),
-public=True,
-permission_classes=(permissions.AllowAny,),
+    ),
+    url="https://automatic-telegram-q765g4vjww75c9rr6-8000.app.github.dev",
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
