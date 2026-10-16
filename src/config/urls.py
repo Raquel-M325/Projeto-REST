@@ -38,10 +38,11 @@ schema_view = get_schema_view(
     license=openapi.License(name="MIT"),
 
     ),
-    #url="https://automatic-telegram-q765g4vjww75c9rr6-8000.app.github.dev",
+    #url="https://fuzzy-doodle-g46vwrxjg97pcp7v6-8000.app.github.dev",
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
+
 
 urlpatterns = [
     path("", include("app.urls")),
