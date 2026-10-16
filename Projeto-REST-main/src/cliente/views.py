@@ -1,0 +1,230 @@
+
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework import generics, permissions, status
+from rest_framework_simplejwt.tokens import RefreshToken
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+
+from .service import ClienteService
+from .serializers import CadastroAvaliadorSerializer, CadastroPublicadorSerializer
+
+
+def tokens_para_usuario(user, tipo):
+    refresh = RefreshToken.for_user(user)
+    refresh["tipo"] = tipo
+    perfil = getattr(user, f"perfil_{tipo}", None)
+    refresh["nome"] = perfil.nome if perfil else user.username
+    return {
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
+        "tipo": tipo,
+        "nome": perfil.nome if perfil else user.username,
+    }
+
+
+class CadastroAvaliadorView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CadastroAvaliadorSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user, perfil = serializer.save()
+        return Response(
+            {
+                "mensagem": "Avaliador cadastrado com sucesso.",
+                "perfil": {"id": perfil.id, "nome": perfil.nome},
+                **tokens_para_usuario(user, "avaliador"),
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+
+class CadastroPublicadorView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CadastroPublicadorSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user, perfil = serializer.save()
+        return Response(
+            {
+                "mensagem": "Publicador cadastrado com sucesso.",
+                "perfil": {"id": perfil.id, "nome": perfil.nome},
+                **tokens_para_usuario(user, "publicador"),
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+
+class ClienteViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def _requisicao_gateway(self, request, metodo, endpoint):
+        token = request.headers.get("Authorization")
+
+        resultado = ClienteService.requisicao(
+            metodo=metodo,
+            endpoint=endpoint,
+            token=token,
+            dados=request.data if metodo in ("POST", "PUT", "PATCH") else None,
+            arquivos=request.FILES or None,
+        )
+
+        return Response(
+            resultado["dados"],
+            status=resultado["status"],
+        )
+
+    # PUBLICADORES
+
+    def listar_publicadores(self, request):
+        return self._requisicao_gateway(
+            request, "GET", "/api/v1/publicadores/"
+        )
+
+    def criar_publicador(self, request):
+        return self._requisicao_gateway(
+            request, "POST", "/api/v1/publicadores/"
+        )
+
+    def detalhar_publicador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "GET", f"/api/v1/publicadores/{pk}/"
+        )
+
+    def editar_publicador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PUT", f"/api/v1/publicadores/{pk}/"
+        )
+
+    def atualizar_parcial_publicador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PATCH", f"/api/v1/publicadores/{pk}/"
+        )
+
+    def excluir_publicador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "DELETE", f"/api/v1/publicadores/{pk}/"
+        )
+
+    # PUBLICAÇÕES
+
+    def listar_publicacoes(self, request):
+        return self._requisicao_gateway(
+            request, "GET", "/api/v1/publicacoes/"
+        )
+
+    @swagger_auto_schema(
+        operation_description="Cria uma nova publicação.",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['titulo', 'data_publicacao', 'publicador'],
+            properties={
+                'titulo': openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description='Título da publicação'
+                ),
+                'data_publicacao': openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    format='date',
+                    description='Data da publicação (AAAA-MM-DD)'
+                ),
+                'publicador': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description='ID do publicador existente'
+                ),
+            }
+        ),
+    )
+    def criar_publicacao(self, request):
+        return self._requisicao_gateway(
+            request, "POST", "/api/v1/publicacoes/"
+        )
+
+    
+    def detalhar_publicacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "GET", f"/api/v1/publicacoes/{pk}/"
+        )
+
+    def editar_publicacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PUT", f"/api/v1/publicacoes/{pk}/"
+        )
+
+    def atualizar_parcial_publicacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PATCH", f"/api/v1/publicacoes/{pk}/"
+        )
+
+    def excluir_publicacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "DELETE", f"/api/v1/publicacoes/{pk}/"
+        )
+
+    # AVALIADORES
+
+    def listar_avaliadores(self, request):
+        return self._requisicao_gateway(
+            request, "GET", "/api/v1/avaliadores/"
+        )
+
+    def criar_avaliador(self, request):
+        return self._requisicao_gateway(
+            request, "POST", "/api/v1/avaliadores/"
+        )
+
+    def detalhar_avaliador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "GET", f"/api/v1/avaliadores/{pk}/"
+        )
+
+    def editar_avaliador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PUT", f"/api/v1/avaliadores/{pk}/"
+        )
+
+    def atualizar_parcial_avaliador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PATCH", f"/api/v1/avaliadores/{pk}/"
+        )
+
+    def excluir_avaliador(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "DELETE", f"/api/v1/avaliadores/{pk}/"
+        )
+
+    # AVALIAÇÕES
+
+    def listar_avaliacoes(self, request):
+        return self._requisicao_gateway(
+            request, "GET", "/api/v1/avaliacoes/"
+        )
+
+    def criar_avaliacao(self, request):
+        return self._requisicao_gateway(
+            request, "POST", "/api/v1/avaliacoes/"
+        )
+
+    def detalhar_avaliacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "GET", f"/api/v1/avaliacoes/{pk}/"
+        )
+
+    def editar_avaliacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PUT", f"/api/v1/avaliacoes/{pk}/"
+        )
+
+    def atualizar_parcial_avaliacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "PATCH", f"/api/v1/avaliacoes/{pk}/"
+        )
+
+    def excluir_avaliacao(self, request, pk=None):
+        return self._requisicao_gateway(
+            request, "DELETE", f"/api/v1/avaliacoes/{pk}/"
+        )

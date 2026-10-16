@@ -1,0 +1,66 @@
+"""
+URL configuration for config project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework import routers
+from interacoes.views import AvaliadorViewSet, AvaliacaoViewSet
+from gerencia.views import PublicacaoViewSet, PublicadorViewSet
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from cliente.authentication import TipoTokenSerializer
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
+from app.permissions import InternalGatewayOnly, LeituraAutenticadaEscritaAvaliador, LeituraAutenticadaEscritaPublicador
+router = routers.DefaultRouter()
+router.register(r'avaliador', AvaliadorViewSet)
+router.register(r'avaliacao', AvaliacaoViewSet)
+router.register(r'publicador', PublicadorViewSet, basename='publicador')
+router.register(r'publicacao', PublicacaoViewSet, basename='publicacao')
+schema_view = get_schema_view(
+    openapi.Info(
+    title="API Sistema de Criticas de Jogos",
+    default_version='v1',
+    description="Documentação da API de Sistema de Criticas de Jogos",
+    contact=openapi.Contact(email="contato@exemplo.com"),
+    license=openapi.License(name="MIT"),
+
+    ),
+    #url="https://fuzzy-doodle-g46vwrxjg97pcp7v6-8000.app.github.dev",
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
+
+urlpatterns = [
+    path("", include("app.urls")),
+    path('admin/', admin.site.urls),
+    path('api/', include("app.urls")),
+    #path('api/', include('cliente.urls')),
+    #path('api/', include('interacoes.urls')),
+    #path('api/', include('gerencia.urls')),
+    path('__internal__/', include(router.urls)),
+    path(
+        'api/token/',
+        TokenObtainPairView.as_view(serializer_class=TipoTokenSerializer),
+        name='token_obtain_pair',
+    ),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc-ui'),
+    path("cliente/", include("cliente.urls")),
+    path("app/", include("app.urls")),
+]

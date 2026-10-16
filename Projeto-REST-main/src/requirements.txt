@@ -1,0 +1,6 @@
+django
+djangorestframework
+drf-yasg
+djangorestframework-simplejwt
+pillow
+requests
